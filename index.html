@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arquitecto — Inicio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 12px 40px;
+      background: #ffffff;
+      border-bottom: 1px solid #e0e0e0;
+      z-index: 1000;
+    }
+
+    .logo img {
+      height: 44px;
+      display: block;
+      mix-blend-mode: multiply;
+    }
+
+    .nav-seccion {
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #000;
+      text-align: center;
+      justify-self: center;
+    }
+
+    .nav-derecha {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: #000;
+      transition: all 0.3s ease;
+    }
+
+    /* ── MENÚ LATERAL PEQUEÑO ── */
+    .side-menu {
+      position: fixed;
+      top: 60px;
+      right: 40px;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      padding: 22px 0;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      min-width: 220px;
+    }
+
+    .side-menu.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
+
+    .side-menu a {
+      font-size: 0.88rem;
+      text-decoration: none;
+      color: #000;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: 13px 30px;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .side-menu a:hover {
+      background: #f5f5f5;
+    }
+
+    .menu-dropdown {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .menu-dropdown-trigger {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      text-decoration: none;
+      color: #000;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 400;
+      padding: 13px 30px;
+      cursor: pointer;
+      transition: background 0.15s;
+      user-select: none;
+    }
+
+    .menu-dropdown-trigger:hover {
+      background: #f5f5f5;
+    }
+
+    .menu-flecha {
+      font-size: 1.1rem;
+      transition: transform 0.2s ease;
+      line-height: 1;
+    }
+
+    .menu-flecha.abierta {
+      transform: rotate(180deg);
+    }
+
+    .menu-dropdown-items {
+      display: none;
+      flex-direction: column;
+    }
+
+    .menu-dropdown-items.visible {
+      display: flex;
+    }
+
+    .menu-dropdown-items a {
+      padding-left: 46px;
+      font-size: 0.8rem;
+      color: #555;
+      letter-spacing: 2px;
+    }
+
+    .menu-dropdown-items a:hover {
+      background: #f5f5f5;
+      color: #000;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 60px 40px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .hero-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #f2f2f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #aaa;
+      z-index: -1;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-text {
+      max-width: 600px;
+    }
+
+    .hero-text h1 {
+      font-size: 3.5rem;
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .hero-text p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #444;
+      max-width: 420px;
+    }
+
+    /* ── SECCIÓN SOBRE MÍ ── */
+    .sobre-mi {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 60vh;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .sobre-mi-img {
+      background: #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #aaa;
+      min-height: 400px;
+    }
+
+    .sobre-mi-texto {
+      padding: 80px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .label {
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 20px;
+    }
+
+    .sobre-mi-texto h2 {
+      font-size: 2rem;
+      font-weight: 300;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+
+    .sobre-mi-texto p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    /* ── PROYECTOS DESTACADOS ── */
+    .proyectos {
+      padding: 80px 40px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .proyectos .label {
+      margin-bottom: 40px;
+    }
+
+    .proyectos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .proyecto-card {
+      aspect-ratio: 3/4;
+      background: #e0e0e0;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .proyecto-card:nth-child(2) {
+      background: #d0d0d0;
+    }
+
+    .proyecto-card:nth-child(3) {
+      background: #c8c8c8;
+    }
+
+    .proyecto-placeholder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .proyecto-info {
+      position: relative;
+      z-index: 1;
+    }
+
+    .proyecto-info h3 {
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .proyecto-info span {
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    /* ── CITA / FILOSOFÍA ── */
+    .cita {
+      padding: 100px 40px;
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .cita blockquote {
+      max-width: 700px;
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 300;
+      line-height: 1.5;
+      font-style: italic;
+      color: #222;
+    }
+
+    /* ── CONTACTO ── */
+    .contacto {
+      padding: 80px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .contacto h2 {
+      font-size: 1.8rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+
+    .btn {
+      display: inline-block;
+      border: 1px solid #000;
+      padding: 14px 36px;
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #000;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn:hover {
+      background: #000;
+      color: #fff;
+    }
+
+    /* ── CONTACTO OVERLAY ── */
+    .contacto-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      z-index: 1100;
+      flex-direction: column;
+    }
+
+    .contacto-overlay.active {
+      display: flex;
+    }
+
+    .contacto-overlay .trabajos-header {
+      flex-shrink: 0;
+    }
+
+    .contacto-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: auto 1fr 220px;
+      grid-template-rows: auto auto;
+      gap: 16px;
+      padding: 50px 60px;
+      overflow-y: auto;
+      align-content: start;
+    }
+
+    .contacto-datos {
+      grid-column: 1;
+      grid-row: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .contacto-mapa {
+      grid-column: 2 / 4;
+      grid-row: 1;
+      height: 260px;
+      border: 1px solid #e0e0e0;
+      width: 100%;
+    }
+
+    .contacto-foto-placeholder {
+      grid-column: 1 / 3;
+      grid-row: 2;
+      height: 300px;
+      background: #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #bbb;
+    }
+
+    .contacto-foto-arquitecto {
+      grid-column: 3;
+      grid-row: 2;
+      height: 300px;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .contacto-foto-arquitecto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      mix-blend-mode: multiply;
+    }
+
+    .contacto-fila {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .contacto-fila img {
+      width: 2.2rem;
+      height: 2.2rem;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .contacto-fila span {
+      font-size: 2.2rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: #000;
+      white-space: nowrap;
+    }
+
+    /* ── TRABAJOS OVERLAY ── */
+    .trabajos-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      z-index: 1100;
+      overflow-y: auto;
+    }
+
+    .trabajos-overlay.active {
+      display: block;
+    }
+
+    .trabajos-header {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 40px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .trabajos-header .logo img {
+      height: 44px;
+      display: block;
+      mix-blend-mode: multiply;
+    }
+
+    .trabajos-header .nav-seccion {
+      font-size: 0.7rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-align: center;
+      justify-self: center;
+    }
+
+    .trabajos-header .nav-derecha {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .trabajos-close {
+      cursor: pointer;
+      font-size: 1.4rem;
+      font-weight: 300;
+      line-height: 1;
+      padding: 4px 8px;
+      border: none;
+      background: none;
+      color: #000;
+    }
+
+    .trabajos-close:hover {
+      opacity: 0.4;
+    }
+
+    .trabajos-lista {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .trabajo-item {
+      width: 100%;
+      position: relative;
+      aspect-ratio: 16 / 5;
+      background: #e8e8e8;
+      overflow: hidden;
+      border-bottom: 2px solid #fff;
+    }
+
+    .trabajo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .trabajo-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #bbb;
+    }
+
+    .trabajo-nombre {
+      position: absolute;
+      bottom: 24px;
+      left: 36px;
+      font-size: 2.8rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+      color: #fff;
+      background: transparent;
+      padding: 0;
+      z-index: 5;
+      -webkit-text-stroke: 1px #000;
+      text-stroke: 1px #000;
+    }
+
+    /* ── TRABAJO CON 8 TIRAS VERTICALES ── */
+    .trabajo-strips {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+
+    .trabajo-strip {
+      flex: 1;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-size: 800% auto;
+      border: 2px solid #000;
+      cursor: pointer;
+      transition: width 0.3s ease, height 0.3s ease, left 0.3s ease, top 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .trabajo-strip.expandida {
+      z-index: 100;
+    }
+
+    /* ── BOTÓN + TRABAJO ── */
+    .trabajo-btn-mas {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 48px;
+      height: 48px;
+      border: 2px solid #000;
+      border-radius: 10px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #000;
+      line-height: 1;
+      transition: background 0.2s, color 0.2s;
+      user-select: none;
+    }
+
+    .trabajo-btn-mas:hover {
+      background: #000;
+      color: #fff;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid #e0e0e0;
+      padding: 30px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: #999;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav {
+        padding: 18px 24px;
+      }
+
+      .hero {
+        padding: 40px 24px;
+      }
+
+      .hero-text h1 {
+        font-size: 2.2rem;
+      }
+
+      .sobre-mi {
+        grid-template-columns: 1fr;
+      }
+
+      .sobre-mi-img {
+        min-height: 260px;
+      }
+
+      .sobre-mi-texto {
+        padding: 50px 24px;
+      }
+
+      .proyectos {
+        padding: 60px 24px;
+      }
+
+      .proyectos-grid {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+
+      .proyecto-card {
+        aspect-ratio: 16/9;
+      }
+
+      .cita {
+        padding: 60px 24px;
+      }
+
+      .cita blockquote {
+        font-size: 1.2rem;
+      }
+
+      .contacto {
+        padding: 60px 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVEGACIÓN -->
+  <nav>
+    <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
+    <span class="nav-seccion" id="navSeccion">Inicio</span>
+    <div class="nav-derecha">
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MENÚ LATERAL -->
+  <div class="side-menu" id="sideMenu">
+    <a href="#">Inicio</a>
+    <a href="#">Taller Estudio</a>
+    <a href="#">Propuesta</a>
+    <a href="#">Proyectos</a>
+    <div class="menu-dropdown">
+      <div class="menu-dropdown-trigger" onclick="toggleObras(event)">
+        <span>Obras</span>
+        <span class="menu-flecha" id="flechaObras">&#8964;</span>
+      </div>
+      <div class="menu-dropdown-items" id="obrasSubmenu">
+        <a href="#" onclick="abrirEjecucion(); return false;">En ejecución</a>
+        <a href="#" onclick="abrirTrabajos(); return false;">Finalizadas</a>
+      </div>
+    </div>
+    <a href="#" style="color: #6b1a2a; font-weight: 600;">Cavas para vinos</a>
+    <a href="#" onclick="abrirContacto(); return false;">Contacto</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-placeholder">[ Imagen principal del proyecto ]</div>
+    <div class="hero-text">
+      <h1>Arquitectura<br>que habita<br>el espacio.</h1>
+      <p>Diseño con intención. Cada proyecto es una conversación entre forma, luz y vida.</p>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section class="sobre-mi">
+    <div class="sobre-mi-img">[ Foto del arquitecto ]</div>
+    <div class="sobre-mi-texto">
+      <p class="label">Sobre mí</p>
+      <h2>Una visión construida<br>proyecto a proyecto.</h2>
+      <p>
+        Soy arquitecto con más de X años de experiencia en diseño residencial, comercial e intervención urbana.
+        Mi trabajo nace de la escucha del lugar, del cliente y del tiempo en que vivimos.
+      </p>
+    </div>
+  </section>
+
+  <!-- PROYECTOS DESTACADOS -->
+  <section class="proyectos">
+    <p class="label">Proyectos destacados</p>
+    <div class="proyectos-grid">
+      <div class="proyecto-card">
+        <div class="proyecto-placeholder">[ Imagen ]</div>
+        <div class="proyecto-info">
+          <h3>Casa en el bosque</h3>
+          <span>Residencial · 2024</span>
+        </div>
+      </div>
+      <div class="proyecto-card">
+        <div class="proyecto-placeholder">[ Imagen ]</div>
+        <div class="proyecto-info">
+          <h3>Estudio de arte</h3>
+          <span>Comercial · 2023</span>
+        </div>
+      </div>
+      <div class="proyecto-card">
+        <div class="proyecto-placeholder">[ Imagen ]</div>
+        <div class="proyecto-info">
+          <h3>Renovación urbana</h3>
+          <span>Urbano · 2022</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CITA / FILOSOFÍA -->
+  <section class="cita">
+    <blockquote>
+      "La arquitectura no es solo construir paredes,<br>es definir cómo la gente vive dentro de ellas."
+    </blockquote>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto">
+    <h2>¿Tenés un proyecto en mente?</h2>
+    <a href="#" class="btn">Hablemos</a>
+  </section>
+
+  <!-- CONTACTO OVERLAY -->
+  <div class="contacto-overlay" id="contactoOverlay">
+    <div class="trabajos-header">
+      <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
+      <span class="nav-seccion">Contacto</span>
+      <div class="nav-derecha">
+        <button class="trabajos-close" onclick="cerrarContacto()">✕</button>
+      </div>
+    </div>
+    <div class="contacto-body">
+      <div class="contacto-datos">
+        <div class="contacto-fila">
+          <img src="imagenes/telefono.png" alt="Teléfono">
+          <span>+54 9 11 6285-4639</span>
+        </div>
+        <div class="contacto-fila">
+          <img src="imagenes/whatssap.png" alt="WhatsApp">
+          <span>+54 9 11 6285-4639</span>
+        </div>
+        <div class="contacto-fila">
+          <img src="imagenes/instagram.avif" alt="Instagram">
+          <span>ignacio.sosa</span>
+        </div>
+      </div>
+      <iframe
+        class="contacto-mapa"
+        src="https://maps.google.com/maps?q=B.+Verazzi+1725,+Villa+Rosa,+Provincia+de+Buenos+Aires,+Argentina&output=embed"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <div class="contacto-foto-placeholder" style="position:relative; align-items:flex-start; justify-content:flex-start; padding:20px;">
+        <span style="font-size:2.2rem; font-weight:300; letter-spacing:2px; color:#000; text-transform:uppercase;">Estudios</span>
+      </div>
+      <div class="contacto-foto-arquitecto">
+        <img src="imagenes/arquitecto.jpg" alt="Ignacio Sosa">
+      </div>
+    </div>
+  </div>
+
+  <!-- TRABAJOS OVERLAY -->
+  <div class="trabajos-overlay" id="trabajosOverlay">
+    <div class="trabajos-header">
+      <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
+      <span class="nav-seccion">Trabajos</span>
+      <div class="nav-derecha">
+        <button class="trabajos-close" onclick="cerrarTrabajos()">✕</button>
+      </div>
+    </div>
+    <div class="trabajos-lista">
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips">
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/casa-completa-1.avif'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/imagen-1-pileta.avif'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/living%203.avif'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/living-1.avif'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/living-2.avif'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/living-4.avif'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/parque-1.avif'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/quincho-1.avif'); background-size: cover; background-position: center;"></div>
+        </div>
+        <span class="trabajo-nombre">Santa María de Tigre</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips">
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 0% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 14.2857% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 28.5714% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 42.8571% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 57.1428% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 71.4285% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 85.7142% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 100% 50%;"></div>
+        </div>
+        <span class="trabajo-nombre">Pilarica</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips">
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 0% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 14.2857% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 28.5714% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 42.8571% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 57.1428% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 71.4285% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 85.7142% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 100% 50%;"></div>
+        </div>
+        <span class="trabajo-nombre">Praderas</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips">
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 0% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 14.2857% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 28.5714% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 42.8571% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 57.1428% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 71.4285% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 85.7142% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 100% 50%;"></div>
+        </div>
+        <span class="trabajo-nombre">Ramos Mejía</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips">
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 0% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 14.2857% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 28.5714% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 42.8571% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 57.1428% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 71.4285% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 85.7142% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 100% 50%;"></div>
+        </div>
+        <span class="trabajo-nombre">Alto del Molino: Codominio</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips">
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 0% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 14.2857% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 28.5714% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 42.8571% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 57.1428% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 71.4285% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 85.7142% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 100% 50%;"></div>
+        </div>
+        <span class="trabajo-nombre">Premium Pilar: Codominio</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips">
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 0% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 14.2857% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 28.5714% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 42.8571% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 57.1428% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 71.4285% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 85.7142% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 100% 50%;"></div>
+        </div>
+        <span class="trabajo-nombre">San Sebastián - Área II 184</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips">
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 0% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 14.2857% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 28.5714% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 42.8571% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 57.1428% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 71.4285% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 85.7142% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 100% 50%;"></div>
+        </div>
+        <span class="trabajo-nombre">Bodega-Pilar</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips">
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 0% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 14.2857% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 28.5714% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 42.8571% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 57.1428% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 71.4285% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 85.7142% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 100% 50%;"></div>
+        </div>
+        <span class="trabajo-nombre">San Vicente</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips">
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 0% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 14.2857% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 28.5714% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 42.8571% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 57.1428% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 71.4285% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 85.7142% 50%;"></div>
+          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 100% 50%;"></div>
+        </div>
+        <span class="trabajo-nombre">3 Terrenos 3 Proyectos</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EN EJECUCIÓN OVERLAY -->
+  <div class="trabajos-overlay" id="ejecucionOverlay">
+    <div class="trabajos-header">
+      <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
+      <span class="nav-seccion">En ejecución</span>
+      <div class="nav-derecha">
+        <button class="trabajos-close" onclick="cerrarEjecucion()">✕</button>
+      </div>
+    </div>
+    <div class="trabajos-lista"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Ignacio Sosa — Arquitecto</span>
+    <span>Buenos Aires, Argentina</span>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('sideMenu');
+    let pinned = false;
+    let hideTimer = null;
+
+    function mostrarMenu() {
+      clearTimeout(hideTimer);
+      menu.classList.add('visible');
+    }
+
+    function ocultarMenu() {
+      if (pinned) return;
+      hideTimer = setTimeout(() => {
+        menu.classList.remove('visible');
+      }, 120);
+    }
+
+    hamburger.addEventListener('mouseenter', mostrarMenu);
+    hamburger.addEventListener('mouseleave', ocultarMenu);
+
+    menu.addEventListener('mouseenter', mostrarMenu);
+    menu.addEventListener('mouseleave', ocultarMenu);
+
+    // Click: fijar o soltar
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      pinned = !pinned;
+      if (pinned) {
+        mostrarMenu();
+      } else {
+        pinned = false;
+        menu.classList.remove('visible');
+      }
+    });
+
+    // Click fuera: cerrar y soltar
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && e.target !== hamburger) {
+        pinned = false;
+        menu.classList.remove('visible');
+      }
+    });
+
+    // ── SECCIÓN ACTIVA EN NAV
+    const secciones = [
+      { el: document.querySelector('.hero'),       nombre: 'Inicio' },
+      { el: document.querySelector('.sobre-mi'),   nombre: 'Taller Estudio' },
+      { el: document.querySelector('.proyectos'),  nombre: 'Proyectos' },
+      { el: document.querySelector('.cita'),       nombre: 'Propuesta' },
+      { el: document.querySelector('.contacto'),   nombre: 'Contacto' },
+    ];
+
+    const navSeccion = document.getElementById('navSeccion');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const match = secciones.find(s => s.el === entry.target);
+          if (match) navSeccion.textContent = match.nombre;
+        }
+      });
+    }, { threshold: 0.3 });
+
+    secciones.forEach(s => { if (s.el) observer.observe(s.el); });
+
+    // ── CONTACTO
+    function abrirContacto() {
+      document.getElementById('contactoOverlay').classList.add('active');
+      pinned = false;
+      menu.classList.remove('visible');
+    }
+
+    function cerrarContacto() {
+      document.getElementById('contactoOverlay').classList.remove('active');
+    }
+
+    // ── TRABAJOS
+    function abrirTrabajos() {
+      document.getElementById('trabajosOverlay').classList.add('active');
+      // Cerrar el menú lateral
+      pinned = false;
+      menu.classList.remove('visible');
+    }
+
+    function cerrarTrabajos() {
+      document.getElementById('trabajosOverlay').classList.remove('active');
+    }
+
+    function abrirEjecucion() {
+      document.getElementById('ejecucionOverlay').classList.add('active');
+      pinned = false;
+      menu.classList.remove('visible');
+    }
+
+    function cerrarEjecucion() {
+      document.getElementById('ejecucionOverlay').classList.remove('active');
+    }
+
+    function toggleObras(e) {
+      e.stopPropagation();
+      const submenu = document.getElementById('obrasSubmenu');
+      const flecha  = document.getElementById('flechaObras');
+      submenu.classList.toggle('visible');
+      flecha.classList.toggle('abierta');
+    }
+
+    function toggleStrip(el) {
+      const yaExpandida = el.classList.contains('expandida');
+      const strips = el.closest('.trabajo-strips');
+      const item   = el.closest('.trabajo-item');
+
+      if (yaExpandida) {
+        // Volver a dimensiones originales con transición
+        el.style.width  = el.dataset.origWidth  + 'px';
+        el.style.height = el.dataset.origHeight + 'px';
+        el.style.left   = el.dataset.origLeft   + 'px';
+        el.style.top    = el.dataset.origTop    + 'px';
+
+        setTimeout(() => {
+          el.classList.remove('expandida');
+          el.style.position = '';
+          el.style.width    = '';
+          el.style.height   = '';
+          el.style.left     = '';
+          el.style.top      = '';
+          el.style.zIndex   = '';
+          strips.style.overflow = '';
+          item.style.overflow   = '';
+        }, 300);
+
+      } else {
+        const origLeft   = el.offsetLeft;
+        const origTop    = el.offsetTop;
+        const origWidth  = el.offsetWidth;
+        const origHeight = el.offsetHeight;
+
+        // Guardar dimensiones originales
+        el.dataset.origLeft   = origLeft;
+        el.dataset.origTop    = origTop;
+        el.dataset.origWidth  = origWidth;
+        el.dataset.origHeight = origHeight;
+
+        // Pasar a absolute en la misma posición (sin salto visual)
+        el.style.position = 'absolute';
+        el.style.left     = origLeft   + 'px';
+        el.style.top      = origTop    + 'px';
+        el.style.width    = origWidth  + 'px';
+        el.style.height   = origHeight + 'px';
+        el.style.zIndex   = '100';
+        strips.style.overflow = 'visible';
+        item.style.overflow   = 'visible';
+
+        const newWidth  = origWidth  * 2.6;
+        const newHeight = origHeight * 1.18;
+        const newLeft   = origLeft  - (newWidth  - origWidth)  / 2;
+        const newTop    = origTop   - (newHeight - origHeight) / 2;
+
+        // Aplicar dimensiones expandidas en el siguiente frame (activa la transición)
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          el.classList.add('expandida');
+          el.style.width  = newWidth  + 'px';
+          el.style.height = newHeight + 'px';
+          el.style.left   = newLeft   + 'px';
+          el.style.top    = newTop    + 'px';
+        }));
+      }
+    }
+  </script>
+
+</body>
+</html>
