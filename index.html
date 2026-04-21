@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Arquitecto — Inicio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -544,6 +545,8 @@
     .trabajos-lista {
       display: flex;
       flex-direction: column;
+      padding-top: 90px;
+      background: #fff;
     }
 
     .trabajo-item {
@@ -551,8 +554,7 @@
       position: relative;
       aspect-ratio: 16 / 5;
       background: #e8e8e8;
-      overflow: hidden;
-      border-bottom: 2px solid #fff;
+      border-bottom: 90px solid #fff;
     }
 
     .trabajo-item img {
@@ -576,17 +578,18 @@
 
     .trabajo-nombre {
       position: absolute;
-      bottom: 24px;
-      left: 36px;
+      top: -67px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-family: 'Raleway', sans-serif;
       font-size: 2.8rem;
-      font-weight: 300;
-      letter-spacing: 2px;
-      color: #fff;
+      font-weight: 800;
+      letter-spacing: 4px;
+      color: #000;
       background: transparent;
       padding: 0;
       z-index: 5;
-      -webkit-text-stroke: 1px #000;
-      text-stroke: 1px #000;
     }
 
     /* ── TRABAJO CON 8 TIRAS VERTICALES ── */
@@ -597,6 +600,7 @@
       width: 100%;
       height: 100%;
       display: flex;
+      overflow: hidden;
     }
 
     .trabajo-strip {
@@ -606,13 +610,55 @@
       background-size: 800% auto;
       border: 2px solid #000;
       cursor: pointer;
-      transition: width 0.3s ease, height 0.3s ease, left 0.3s ease, top 0.3s ease;
+      transition: width 0.3s ease, height 0.3s ease, left 0.3s ease, top 0.3s ease,
+                  box-shadow 0.3s ease, transform 0.3s ease;
       position: relative;
       z-index: 1;
     }
 
     .trabajo-strip.expandida {
       z-index: 100;
+      box-shadow:
+        0 4px 10px rgba(0,0,0,0.25),
+        0 12px 30px rgba(0,0,0,0.35),
+        0 30px 70px rgba(0,0,0,0.3),
+        0 2px 4px rgba(0,0,0,0.4);
+      transform: perspective(900px) rotateX(4deg) rotateY(-2deg);
+      transition: width 0.3s ease, height 0.3s ease, left 0.3s ease, top 0.3s ease,
+                  box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    /* ── CUADRÍCULA HORIZONTAL 4×2 ── */
+    .trabajo-grid {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 2px;
+      background: #000;
+    }
+
+    .trabajo-celda {
+      background-color: #fff;
+      border: 2px solid #000;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .trabajo-celda.expandida {
+      z-index: 100;
+      box-shadow:
+        0 4px 10px rgba(0,0,0,0.25),
+        0 12px 30px rgba(0,0,0,0.35),
+        0 30px 70px rgba(0,0,0,0.3),
+        0 2px 4px rgba(0,0,0,0.4);
+      transform: perspective(900px) rotateX(4deg) rotateY(-2deg);
+      transition: width 0.3s ease, height 0.3s ease, left 0.3s ease, top 0.3s ease,
+                  box-shadow 0.3s ease, transform 0.3s ease;
     }
 
     /* ── BOTÓN + TRABAJO ── */
@@ -944,21 +990,6 @@
 
       <div class="trabajo-item">
         <div class="trabajo-strips">
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 0% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 14.2857% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 28.5714% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 42.8571% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 57.1428% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 71.4285% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 85.7142% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-6.jpg'); background-position: 100% 50%;"></div>
-        </div>
-        <span class="trabajo-nombre">Premium Pilar: Codominio</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
-
-      <div class="trabajo-item">
-        <div class="trabajo-strips">
           <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 0% 50%;"></div>
           <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 14.2857% 50%;"></div>
           <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 28.5714% 50%;"></div>
@@ -1029,7 +1060,99 @@
         <button class="trabajos-close" onclick="cerrarEjecucion()">✕</button>
       </div>
     </div>
-    <div class="trabajos-lista"></div>
+    <div class="trabajos-lista">
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips trabajo-grid">
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/01_Acceso_20autos.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/03_pileta_20cubierta_noche.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/04_Cocina.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/06_Confiteria.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/07_Gym.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/10_Aerea.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/12_Pileta_Grande.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/13_Paseo_01.jpg'); background-size: cover; background-position: center;"></div>
+        </div>
+        <span class="trabajo-nombre">Premium Pilar</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips trabajo-grid">
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/2.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/7.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/10.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/11.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/14.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/15.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/16.jpg'); background-size: cover; background-position: center;"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/17.jpg'); background-size: cover; background-position: center;"></div>
+        </div>
+        <span class="trabajo-nombre">Mercedes Buenos Aires</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips trabajo-grid">
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+        </div>
+        <span class="trabajo-nombre">Por definir</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips trabajo-grid">
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+        </div>
+        <span class="trabajo-nombre">Por definir</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips trabajo-grid">
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+        </div>
+        <span class="trabajo-nombre">Por definir</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+      <div class="trabajo-item">
+        <div class="trabajo-strips trabajo-grid">
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+        </div>
+        <span class="trabajo-nombre">Por definir</span>
+        <div class="trabajo-btn-mas">+</div>
+      </div>
+
+    </div>
   </div>
 
   <!-- FOOTER -->
@@ -1147,11 +1270,81 @@
 
     function toggleStrip(el) {
       const yaExpandida = el.classList.contains('expandida');
+      const esCelda     = el.classList.contains('trabajo-celda');
+
+      // ── CELDAS DE GRID: position absolute + placeholder para no mover las demás ──
+      if (esCelda) {
+        const grid = el.closest('.trabajo-grid');
+        const item = el.closest('.trabajo-item');
+
+        if (yaExpandida) {
+          el.style.width  = el.dataset.origWidth  + 'px';
+          el.style.height = el.dataset.origHeight + 'px';
+          el.style.left   = el.dataset.origLeft   + 'px';
+          el.style.top    = el.dataset.origTop    + 'px';
+
+          setTimeout(() => {
+            el.classList.remove('expandida');
+            el.style.position = '';
+            el.style.width    = '';
+            el.style.height   = '';
+            el.style.left     = '';
+            el.style.top      = '';
+            el.style.zIndex   = '';
+            grid.style.overflow = '';
+            item.style.overflow = '';
+            const ph = grid.querySelector('.celda-ph');
+            if (ph) ph.remove();
+          }, 300);
+
+        } else {
+          // Capturar posición ANTES de insertar el placeholder
+          const origLeft   = el.offsetLeft;
+          const origTop    = el.offsetTop;
+          const origWidth  = el.offsetWidth;
+          const origHeight = el.offsetHeight;
+
+          // Insertar placeholder invisible para que el grid no se mueva
+          const ph = document.createElement('div');
+          ph.className = 'celda-ph';
+          ph.style.visibility = 'hidden';
+          el.parentElement.insertBefore(ph, el);
+
+          el.dataset.origLeft   = origLeft;
+          el.dataset.origTop    = origTop;
+          el.dataset.origWidth  = origWidth;
+          el.dataset.origHeight = origHeight;
+
+          el.style.position = 'absolute';
+          el.style.left     = origLeft   + 'px';
+          el.style.top      = origTop    + 'px';
+          el.style.width    = origWidth  + 'px';
+          el.style.height   = origHeight + 'px';
+          el.style.zIndex   = '100';
+          grid.style.overflow = 'visible';
+          item.style.overflow = 'visible';
+
+          const newWidth  = origWidth  * 1.7;
+          const newHeight = origHeight * 1.4;
+          const newLeft   = origLeft  - (newWidth  - origWidth)  / 2;
+          const newTop    = origTop   - (newHeight - origHeight) / 2;
+
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            el.classList.add('expandida');
+            el.style.width  = newWidth  + 'px';
+            el.style.height = newHeight + 'px';
+            el.style.left   = newLeft   + 'px';
+            el.style.top    = newTop    + 'px';
+          }));
+        }
+        return;
+      }
+
+      // ── STRIPS VERTICALES: con placeholder para no mover los demás ──
       const strips = el.closest('.trabajo-strips');
       const item   = el.closest('.trabajo-item');
 
       if (yaExpandida) {
-        // Volver a dimensiones originales con transición
         el.style.width  = el.dataset.origWidth  + 'px';
         el.style.height = el.dataset.origHeight + 'px';
         el.style.left   = el.dataset.origLeft   + 'px';
@@ -1167,6 +1360,8 @@
           el.style.zIndex   = '';
           strips.style.overflow = '';
           item.style.overflow   = '';
+          const ph = strips.querySelector('.strip-ph');
+          if (ph) ph.remove();
         }, 300);
 
       } else {
@@ -1175,13 +1370,19 @@
         const origWidth  = el.offsetWidth;
         const origHeight = el.offsetHeight;
 
-        // Guardar dimensiones originales
+        // Insertar placeholder para que el flex no redistribuya los strips
+        const ph = document.createElement('div');
+        ph.className = 'strip-ph';
+        ph.style.flex        = '1';
+        ph.style.height      = '100%';
+        ph.style.visibility  = 'hidden';
+        el.parentElement.insertBefore(ph, el);
+
         el.dataset.origLeft   = origLeft;
         el.dataset.origTop    = origTop;
         el.dataset.origWidth  = origWidth;
         el.dataset.origHeight = origHeight;
 
-        // Pasar a absolute en la misma posición (sin salto visual)
         el.style.position = 'absolute';
         el.style.left     = origLeft   + 'px';
         el.style.top      = origTop    + 'px';
@@ -1196,7 +1397,6 @@
         const newLeft   = origLeft  - (newWidth  - origWidth)  / 2;
         const newTop    = origTop   - (newHeight - origHeight) / 2;
 
-        // Aplicar dimensiones expandidas en el siguiente frame (activa la transición)
         requestAnimationFrame(() => requestAnimationFrame(() => {
           el.classList.add('expandida');
           el.style.width  = newWidth  + 'px';
