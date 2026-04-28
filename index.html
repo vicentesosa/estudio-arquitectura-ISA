@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>if (window.innerWidth <= 768) window.location.href = 'preview.html';</script>
   <title>Arquitecto — Inicio</title>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -180,24 +181,22 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #f2f2f2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #aaa;
-      z-index: -1;
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+      z-index: 0;
     }
 
     .hero {
       position: relative;
       overflow: hidden;
+      background-image: url('arq-1.jpg');
+      background-size: cover;
+      background-position: center;
     }
 
     .hero-text {
       max-width: 600px;
+      position: relative;
+      z-index: 1;
     }
 
     .hero-text h1 {
@@ -206,12 +205,13 @@
       line-height: 1.1;
       letter-spacing: 2px;
       margin-bottom: 16px;
+      color: #fff;
     }
 
     .hero-text p {
       font-size: 1rem;
       line-height: 1.7;
-      color: #444;
+      color: rgba(255,255,255,0.85);
       max-width: 420px;
     }
 
@@ -801,7 +801,7 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-placeholder">[ Imagen principal del proyecto ]</div>
+    <div class="hero-placeholder"></div>
     <div class="hero-text">
       <h1>Arquitectura<br>que habita<br>el espacio.</h1>
       <p>Diseño con intención. Cada proyecto es una conversación entre forma, luz y vida.</p>

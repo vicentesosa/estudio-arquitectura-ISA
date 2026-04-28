@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Arquitecto — Inicio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
+  <script>
+    if (window.innerWidth > 768) window.location.href = 'index.html';
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #fff;
+      color: #000;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      z-index: 1000;
+    }
+
+    .logo img {
+      height: 38px;
+      display: block;
+      mix-blend-mode: multiply;
+    }
+
+    .nav-seccion {
+      font-size: 0.6rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #000;
+    }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: #000;
+    }
+
+    /* ── MENÚ PANTALLA COMPLETA ── */
+    .mobile-menu {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #fff;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-menu.visible {
+      transform: translateX(0);
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      border-bottom: 1px solid #e0e0e0;
+      flex-shrink: 0;
+    }
+
+    .mobile-menu-close {
+      font-size: 1.6rem;
+      font-weight: 300;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #000;
+      padding: 4px 8px;
+      line-height: 1;
+    }
+
+    .mobile-menu-links {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .mobile-menu-links a,
+    .mobile-menu-trigger {
+      display: flex;
+      align-items: center;
+      font-size: 0.82rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #000;
+      padding: 20px 28px;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+
+    .mobile-menu-trigger {
+      justify-content: space-between;
+    }
+
+    .mobile-submenu { display: none; }
+    .mobile-submenu.visible { display: block; }
+
+    .mobile-submenu a {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      color: #555;
+      padding: 16px 28px 16px 52px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      height: 100svh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 40px 24px;
+      border-bottom: 1px solid #e0e0e0;
+      background-image: url('../arq-1.jpg');
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
+      z-index: 0;
+    }
+
+    .hero-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text h1 {
+      font-size: 2.4rem;
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+      color: #fff;
+    }
+
+    .hero-text p {
+      font-size: 0.93rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* ── SOBRE MÍ ── */
+    .sobre-mi {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .sobre-mi-img {
+      height: 280px;
+      background: #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .sobre-mi-texto {
+      padding: 48px 24px;
+    }
+
+    .label {
+      font-size: 0.62rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 16px;
+    }
+
+    .sobre-mi-texto h2 {
+      font-size: 1.55rem;
+      font-weight: 300;
+      margin-bottom: 16px;
+      line-height: 1.35;
+    }
+
+    .sobre-mi-texto p {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    /* ── PROYECTOS ── */
+    .proyectos {
+      padding: 52px 24px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .proyectos .label { margin-bottom: 30px; }
+
+    .proyectos-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .proyecto-card {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #e0e0e0;
+      display: flex;
+      align-items: flex-end;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .proyecto-placeholder {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .proyecto-info { position: relative; z-index: 1; }
+
+    .proyecto-info h3 {
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .proyecto-info span { font-size: 0.72rem; color: #666; }
+
+    /* ── CITA ── */
+    .cita {
+      padding: 70px 28px;
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .cita blockquote {
+      font-size: 1.15rem;
+      font-weight: 300;
+      line-height: 1.65;
+      font-style: italic;
+      color: #222;
+      text-align: center;
+    }
+
+    /* ── CONTACTO ── */
+    .contacto {
+      padding: 58px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    .contacto h2 {
+      font-size: 1.45rem;
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+
+    .btn {
+      display: inline-block;
+      border: 1px solid #000;
+      padding: 16px 36px;
+      font-size: 0.78rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #000;
+      background: transparent;
+      cursor: pointer;
+      align-self: flex-start;
+    }
+
+    /* ── HEADER DE OVERLAY (compartido) ── */
+    .overlay-header {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+      flex-shrink: 0;
+    }
+
+    .overlay-title {
+      font-size: 0.6rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .overlay-close {
+      font-size: 1.5rem;
+      font-weight: 300;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #000;
+      padding: 4px 8px;
+      line-height: 1;
+    }
+
+    /* ── CONTACTO OVERLAY ── */
+    .contacto-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #fff;
+      z-index: 1100;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .contacto-overlay.active { display: flex; }
+
+    .contacto-body-mobile {
+      padding: 36px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .contacto-fila {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .contacto-fila img {
+      width: 1.8rem;
+      height: 1.8rem;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .contacto-fila span {
+      font-size: 1.15rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      color: #000;
+    }
+
+    .contacto-mapa {
+      width: 100%;
+      height: 220px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .contacto-foto-arquitecto {
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    .contacto-foto-arquitecto img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      mix-blend-mode: multiply;
+    }
+
+    /* ── TRABAJOS OVERLAY ── */
+    .trabajos-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: #fff;
+      z-index: 1100;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .trabajos-overlay.active { display: flex; }
+
+    .trabajos-lista-mobile {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    /* ── TRABAJO ITEM MOBILE ── */
+    .trabajo-item-mobile {
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 28px;
+      margin-bottom: 0;
+    }
+
+    .trabajo-nombre-mobile {
+      font-family: 'Raleway', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 22px 20px 14px;
+    }
+
+    /* ── CAROUSEL ── */
+    .foto-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .foto-carousel::-webkit-scrollbar { display: none; }
+
+    .foto-slide {
+      min-width: 100%;
+      height: 72vw;
+      background-size: cover;
+      background-position: center;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
+
+    .foto-counter {
+      text-align: right;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #999;
+      padding: 10px 20px 0;
+    }
+
+    /* ── DOTS INDICADOR ── */
+    .foto-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 0 0;
+    }
+
+    .foto-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ccc;
+      transition: background 0.2s;
+    }
+
+    .foto-dot.activo { background: #000; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid #e0e0e0;
+      padding: 24px;
+      text-align: center;
+      font-size: 0.68rem;
+      color: #999;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
+    <span class="nav-seccion" id="navSeccion">Inicio</span>
+    <div class="hamburger" onclick="abrirMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- MENÚ MOBILE -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
+      <button class="mobile-menu-close" onclick="cerrarMenu()">✕</button>
+    </div>
+    <div class="mobile-menu-links">
+      <a href="#" onclick="cerrarMenu()">Inicio</a>
+      <a href="#">Taller Estudio</a>
+      <a href="#">Propuesta</a>
+      <a href="#">Proyectos</a>
+      <div class="mobile-menu-trigger" onclick="toggleObrasMenu()">
+        <span>Obras</span>
+        <span id="flechaObras">&#8964;</span>
+      </div>
+      <div class="mobile-submenu" id="obrasSubmenuMobile">
+        <a href="#" onclick="abrirEjecucion(); return false;">En ejecución</a>
+        <a href="#" onclick="abrirTrabajos(); return false;">Finalizadas</a>
+      </div>
+      <a href="#" style="color: #6b1a2a; font-weight: 600;">Cavas para vinos</a>
+      <a href="#" onclick="abrirContacto(); cerrarMenu(); return false;">Contacto</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Arquitectura<br>que habita<br>el espacio.</h1>
+      <p>Diseño con intención. Cada proyecto es una conversación entre forma, luz y vida.</p>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section class="sobre-mi">
+    <div class="sobre-mi-img">[ Foto del arquitecto ]</div>
+    <div class="sobre-mi-texto">
+      <p class="label">Sobre mí</p>
+      <h2>Una visión construida<br>proyecto a proyecto.</h2>
+      <p>Soy arquitecto con más de X años de experiencia en diseño residencial, comercial e intervención urbana. Mi trabajo nace de la escucha del lugar, del cliente y del tiempo en que vivimos.</p>
+    </div>
+  </section>
+
+  <!-- PROYECTOS DESTACADOS -->
+  <section class="proyectos">
+    <p class="label">Proyectos destacados</p>
+    <div class="proyectos-grid">
+      <div class="proyecto-card">
+        <div class="proyecto-placeholder">[ Imagen ]</div>
+        <div class="proyecto-info">
+          <h3>Casa en el bosque</h3>
+          <span>Residencial · 2024</span>
+        </div>
+      </div>
+      <div class="proyecto-card" style="background:#d0d0d0;">
+        <div class="proyecto-placeholder">[ Imagen ]</div>
+        <div class="proyecto-info">
+          <h3>Estudio de arte</h3>
+          <span>Comercial · 2023</span>
+        </div>
+      </div>
+      <div class="proyecto-card" style="background:#c8c8c8;">
+        <div class="proyecto-placeholder">[ Imagen ]</div>
+        <div class="proyecto-info">
+          <h3>Renovación urbana</h3>
+          <span>Urbano · 2022</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CITA -->
+  <section class="cita">
+    <blockquote>
+      "La arquitectura no es solo construir paredes,<br>es definir cómo la gente vive dentro de ellas."
+    </blockquote>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto">
+    <h2>¿Tenés un proyecto en mente?</h2>
+    <a href="#" class="btn" onclick="abrirContacto(); return false;">Hablemos</a>
+  </section>
+
+  <!-- CONTACTO OVERLAY -->
+  <div class="contacto-overlay" id="contactoOverlay">
+    <div class="overlay-header">
+      <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
+      <span class="overlay-title">Contacto</span>
+      <button class="overlay-close" onclick="cerrarContacto()">✕</button>
+    </div>
+    <div class="contacto-body-mobile">
+      <div class="contacto-fila">
+        <img src="imagenes/telefono.png" alt="Teléfono">
+        <span>+54 9 11 6285-4639</span>
+      </div>
+      <div class="contacto-fila">
+        <img src="imagenes/whatssap.png" alt="WhatsApp">
+        <span>+54 9 11 6285-4639</span>
+      </div>
+      <div class="contacto-fila">
+        <img src="imagenes/instagram.avif" alt="Instagram">
+        <span>ignacio.sosa</span>
+      </div>
+      <iframe
+        class="contacto-mapa"
+        src="https://maps.google.com/maps?q=B.+Verazzi+1725,+Villa+Rosa,+Provincia+de+Buenos+Aires,+Argentina&output=embed"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <div style="font-size:1.2rem; font-weight:300; letter-spacing:2px; text-transform:uppercase;">Estudios</div>
+      <div class="contacto-foto-arquitecto">
+        <img src="imagenes/arquitecto.jpg" alt="Ignacio Sosa">
+      </div>
+    </div>
+  </div>
+
+  <!-- TRABAJOS OVERLAY — FINALIZADAS -->
+  <div class="trabajos-overlay" id="trabajosOverlay">
+    <div class="overlay-header">
+      <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
+      <span class="overlay-title">Finalizadas</span>
+      <button class="overlay-close" onclick="cerrarTrabajos()">✕</button>
+    </div>
+    <div class="trabajos-lista-mobile">
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">Santa María de Tigre</div>
+        <div class="foto-carousel" onscroll="actualizarDots(this)">
+          <div class="foto-slide" style="background-image: url('imagenes/SANTA MARIA/casa-completa-1.avif');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/SANTA MARIA/imagen-1-pileta.avif');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/SANTA MARIA/living 3.avif');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/SANTA MARIA/living-1.avif');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/SANTA MARIA/living-2.avif');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/SANTA MARIA/living-4.avif');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/SANTA MARIA/parque-1.avif');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/SANTA MARIA/parque-2.avif');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/SANTA MARIA/quincho-1.avif');"></div>
+        </div>
+        <div class="foto-dots"></div>
+      </div>
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">Pilarica</div>
+        <div class="foto-carousel">
+          <div class="foto-slide" style="background-image: url('imagenes/trabajo-2.jpg');"></div>
+        </div>
+      </div>
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">Praderas</div>
+        <div class="foto-carousel">
+          <div class="foto-slide" style="background-image: url('imagenes/trabajo-3.jpg');"></div>
+        </div>
+      </div>
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">Ramos Mejía</div>
+        <div class="foto-carousel">
+          <div class="foto-slide" style="background-image: url('imagenes/trabajo-4.jpg');"></div>
+        </div>
+      </div>
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">Alto del Molino: Codominio</div>
+        <div class="foto-carousel">
+          <div class="foto-slide" style="background-image: url('imagenes/trabajo-5.jpg');"></div>
+        </div>
+      </div>
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">San Sebastián — Área II 184</div>
+        <div class="foto-carousel">
+          <div class="foto-slide" style="background-image: url('imagenes/trabajo-7.jpg');"></div>
+        </div>
+      </div>
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">Bodega-Pilar</div>
+        <div class="foto-carousel">
+          <div class="foto-slide" style="background-image: url('imagenes/trabajo-8.jpg');"></div>
+        </div>
+      </div>
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">San Vicente</div>
+        <div class="foto-carousel">
+          <div class="foto-slide" style="background-image: url('imagenes/trabajo-9.jpg');"></div>
+        </div>
+      </div>
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">3 Terrenos 3 Proyectos</div>
+        <div class="foto-carousel">
+          <div class="foto-slide" style="background-image: url('imagenes/trabajo-10.jpg');"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EN EJECUCIÓN OVERLAY -->
+  <div class="trabajos-overlay" id="ejecucionOverlay">
+    <div class="overlay-header">
+      <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
+      <span class="overlay-title">En ejecución</span>
+      <button class="overlay-close" onclick="cerrarEjecucion()">✕</button>
+    </div>
+    <div class="trabajos-lista-mobile">
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">Premium Pilar</div>
+        <div class="foto-carousel" onscroll="actualizarDots(this)">
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/01_Acceso_20autos.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/02_Balcon.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/03_pileta_20cubierta_noche.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/04_Cocina.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/05_Living.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/06_Confiteria.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/07_Gym.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/08_terraza_03.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/09_dormitorio.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/10_Aerea.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/11_Pileta_Chicos.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/12_Pileta_Grande.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/13_Paseo_01.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/14_Pasep_02.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/PREMIUM PILAR/15_Pileta_Jacuzzi.jpg');"></div>
+        </div>
+        <div class="foto-dots"></div>
+      </div>
+
+      <div class="trabajo-item-mobile">
+        <div class="trabajo-nombre-mobile">Mercedes Buenos Aires</div>
+        <div class="foto-carousel" onscroll="actualizarDots(this)">
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/1.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/2.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/3.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/4.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/5.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/6.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/7.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/8.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/9.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/10.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/11.jpg');"></div>
+          <div class="foto-slide" style="background-image: url('imagenes/MERCEDES BUENOS AIRES/12.jpg');"></div>
+        </div>
+        <div class="foto-dots"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2026 Ignacio Sosa — Arquitecto</span>
+  </footer>
+
+  <script>
+    // ── MENÚ
+    function abrirMenu() {
+      document.getElementById('mobileMenu').classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function cerrarMenu() {
+      document.getElementById('mobileMenu').classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+
+    function toggleObrasMenu() {
+      const sub = document.getElementById('obrasSubmenuMobile');
+      const flecha = document.getElementById('flechaObras');
+      const abierto = sub.classList.toggle('visible');
+      flecha.style.transform = abierto ? 'rotate(180deg)' : '';
+      flecha.style.transition = 'transform 0.2s';
+    }
+
+    // ── OVERLAYS
+    function abrirContacto() {
+      document.getElementById('contactoOverlay').classList.add('active');
+    }
+    function cerrarContacto() {
+      document.getElementById('contactoOverlay').classList.remove('active');
+    }
+
+    function abrirTrabajos() {
+      document.getElementById('trabajosOverlay').classList.add('active');
+      cerrarMenu();
+    }
+    function cerrarTrabajos() {
+      document.getElementById('trabajosOverlay').classList.remove('active');
+    }
+
+    function abrirEjecucion() {
+      document.getElementById('ejecucionOverlay').classList.add('active');
+      cerrarMenu();
+    }
+    function cerrarEjecucion() {
+      document.getElementById('ejecucionOverlay').classList.remove('active');
+    }
+
+    // ── DOTS DE CAROUSEL
+    function crearDots(carousel) {
+      const dots = carousel.nextElementSibling;
+      if (!dots || !dots.classList.contains('foto-dots')) return;
+      const total = carousel.querySelectorAll('.foto-slide').length;
+      if (total <= 1) { dots.style.display = 'none'; return; }
+      for (let i = 0; i < total; i++) {
+        const d = document.createElement('div');
+        d.className = 'foto-dot' + (i === 0 ? ' activo' : '');
+        dots.appendChild(d);
+      }
+    }
+
+    function actualizarDots(carousel) {
+      const idx = Math.round(carousel.scrollLeft / carousel.offsetWidth);
+      const dots = carousel.nextElementSibling;
+      if (!dots || !dots.classList.contains('foto-dots')) return;
+      dots.querySelectorAll('.foto-dot').forEach((d, i) => {
+        d.classList.toggle('activo', i === idx);
+      });
+    }
+
+    // Inicializar dots al cargar
+    document.querySelectorAll('.foto-carousel').forEach(c => crearDots(c));
+
+    // ── SECCIÓN ACTIVA EN NAV
+    const secciones = [
+      { el: document.querySelector('.hero'),      nombre: 'Inicio' },
+      { el: document.querySelector('.sobre-mi'),  nombre: 'Taller Estudio' },
+      { el: document.querySelector('.proyectos'), nombre: 'Proyectos' },
+      { el: document.querySelector('.cita'),      nombre: 'Propuesta' },
+      { el: document.querySelector('.contacto'),  nombre: 'Contacto' },
+    ];
+
+    const navSeccion = document.getElementById('navSeccion');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const match = secciones.find(s => s.el === entry.target);
+          if (match) navSeccion.textContent = match.nombre;
+        }
+      });
+    }, { threshold: 0.3 });
+
+    secciones.forEach(s => { if (s.el) observer.observe(s.el); });
+  </script>
+
+</body>
+</html>
