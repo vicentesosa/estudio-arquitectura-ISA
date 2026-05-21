@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ISA · En Ejecución — Premium Pilar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Archivo:wght@300;400;500;600;700&family=Archivo+Narrow:wght@400;500;600&family=Italiana&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #f6f4ef;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-mute: #8a8580;
+    --line: #d9d4cc;
+    --line-soft: #ebe7df;
+    --paper: #ffffff;
+    --accent: #c9442e;   /* logo orange-red */
+    --accent-deep: #a83820;
+    --hairline: rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#2a2825}
+  body{
+    font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Outer modal wrapper — mimics the "tab opened over the site" feel */
+  .stage{
+    min-height: 100vh;
+    padding: 28px;
+    display:flex;
+    align-items:stretch;
+    justify-content:center;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(255,255,255,.04), transparent 60%),
+      #1d1b18;
+  }
+  .modal{
+    width: 100%;
+    max-width: 1400px;
+    background: var(--bg);
+    box-shadow: 0 30px 80px rgba(0,0,0,.45), 0 2px 0 rgba(0,0,0,.2);
+    display:flex; flex-direction:column;
+    overflow:hidden;
+    border-radius: 2px;
+  }
+
+  /* dark variant overrides */
+  .modal.is-dark{
+    --bg:#111110;
+    --ink:#f3efe7;
+    --ink-soft:#c9c3b8;
+    --ink-mute:#7a766f;
+    --line:#2a2825;
+    --line-soft:#1b1a17;
+    --paper:#1a1916;
+    --hairline: rgba(255,255,255,.1);
+    color: var(--ink);
+  }
+  .modal.is-dark{background:#111110}
+
+  /* TOP BAR */
+  .topbar{
+    display:grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items:center;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--bg);
+  }
+  .modal.is-dark .topbar{background:#111110}
+
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-mark{
+    font-family:"Archivo", sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: .01em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .brand-mark .isa{color: var(--accent); letter-spacing:.02em}
+  .brand-sub{
+    display:block;
+    font-family:"Archivo Narrow", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .32em;
+    color: var(--accent);
+    margin-top: 4px;
+  }
+
+  .crumb{
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 11px;
+    letter-spacing: .42em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display:flex; align-items:center; gap:14px;
+    justify-self:center;
+  }
+  .crumb .dot{
+    width:5px;height:5px;border-radius:50%;
+    background: var(--accent);
+    display:inline-block;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1; transform:scale(1)}
+    50%{opacity:.4; transform:scale(.7)}
+  }
+
+  .topbar-right{
+    display:flex; align-items:center; gap:8px;
+    justify-self:end;
+  }
+  .icon-btn{
+    appearance:none;border:0;background:transparent;
+    width:34px;height:34px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    color: var(--ink-soft);
+    cursor:pointer;
+    transition: all .2s ease;
+  }
+  .icon-btn:hover{background: rgba(0,0,0,.06); color: var(--ink)}
+  .modal.is-dark .icon-btn:hover{background: rgba(255,255,255,.08)}
+  .icon-btn svg{width:16px;height:16px}
+
+  /* PROJECT HEADER */
+  .project-head{
+    padding: 36px 40px 28px;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    align-items:end;
+    gap: 24px;
+  }
+  .project-eyebrow{
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 10px;
+    letter-spacing: .42em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin: 0 0 10px;
+  }
+  .project-eyebrow .num{
+    color: var(--accent);
+    font-weight:600;
+    margin-right: 12px;
+  }
+  .project-title{
+    font-family:"Cormorant Garamond", serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5.2vw, 68px);
+    line-height: .95;
+    letter-spacing: -.015em;
+    margin: 0;
+    color: var(--ink);
+  }
+  .project-title em{
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+
+  .meta{
+    display:flex;
+    gap: 32px;
+    padding-bottom: 6px;
+  }
+  .meta-item{
+    display:flex; flex-direction:column; gap:4px;
+    min-width: 0;
+  }
+  .meta-k{
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 9px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .meta-v{
+    font-family:"Archivo", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: .01em;
+  }
+  .meta-v .live{
+    display:inline-block;
+    width:6px;height:6px;border-radius:50%;
+    background: var(--accent);
+    margin-right: 6px;
+    transform: translateY(-1px);
+  }
+
+  /* GALLERY */
+  .gallery-wrap{
+    padding: 8px 40px 40px;
+  }
+  .gallery{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 10px;
+    /* keep the grid a consistent aspect so it never feels squished */
+    aspect-ratio: 16 / 9;
+  }
+  /* Each tile shows hover affordance and a smooth transition between layouts */
+  .tile{
+    position: relative;
+    overflow: hidden;
+    background: #222;
+    cursor: zoom-in;
+    transition:
+      grid-column .55s cubic-bezier(.7,.05,.2,1),
+      grid-row .55s cubic-bezier(.7,.05,.2,1),
+      transform .35s ease,
+      box-shadow .35s ease;
+    will-change: grid-column, grid-row;
+  }
+  .tile img{
+    width:100%;height:100%;
+    object-fit: cover;
+    display:block;
+    transition: transform .9s cubic-bezier(.2,.7,.2,1), filter .4s ease;
+  }
+  .tile::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,.35) 100%);
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events:none;
+  }
+  .tile:hover img{ transform: scale(1.06) }
+  .tile:hover::after{ opacity: 1 }
+
+  /* The selected (hero) tile takes a 2x2 slot */
+  .tile.is-hero{
+    grid-column: span 2;
+    grid-row: span 2;
+    cursor: default;
+  }
+  .tile.is-hero img{ transform: scale(1.02) }
+  .tile.is-hero:hover img{ transform: scale(1.04) }
+
+  /* Tile index badge */
+  .tile-idx{
+    position:absolute;
+    top:10px; left:12px;
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 10px;
+    letter-spacing: .28em;
+    color: rgba(255,255,255,.85);
+    text-shadow: 0 1px 6px rgba(0,0,0,.55);
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events:none;
+  }
+  .tile:hover .tile-idx, .tile.is-hero .tile-idx{ opacity: 1 }
+
+  /* Info card occupies one cell on the bottom-right of the grid */
+  .info-card{
+    grid-column: 4 / 5;
+    grid-row: 3 / 4;
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    display:flex; flex-direction:column;
+    justify-content: space-between;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .modal.is-dark .info-card{background:#1a1916}
+  .info-card .ic-eyebrow{
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 9px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .info-card .ic-title{
+    font-family:"Cormorant Garamond", serif;
+    font-size: 18px;
+    line-height: 1.1;
+    color: var(--ink);
+    margin: 6px 0 0;
+    font-weight: 400;
+  }
+  .info-card .ic-title em{ font-style: italic; color: var(--accent)}
+  .plus-btn{
+    appearance:none; border:0;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--bg);
+    display:inline-flex; align-items:center; justify-content:center;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: transform .25s ease, background .25s ease, color .25s ease;
+    box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  }
+  .modal.is-dark .plus-btn{ background: var(--accent); color: #111110 }
+  .plus-btn:hover{
+    background: var(--accent);
+    color: white;
+    transform: rotate(90deg) scale(1.05);
+  }
+  .modal.is-dark .plus-btn:hover{ background: var(--ink); color: var(--accent); transform: rotate(90deg) scale(1.05)}
+  .plus-btn svg{width:18px;height:18px}
+
+  /* FOOTER thin */
+  .foot{
+    padding: 18px 40px 24px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-top: 1px solid var(--hairline);
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 10px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .foot .nav{display:flex; gap:18px; align-items:center}
+  .foot .nav a{color: var(--ink-soft); text-decoration:none; cursor:pointer; transition: color .2s ease}
+  .foot .nav a:hover{color: var(--accent)}
+  .foot .counter{
+    display:flex; gap:8px; align-items:baseline;
+    font-family:"Cormorant Garamond", serif;
+    font-size: 16px;
+    letter-spacing: .04em;
+    text-transform: none;
+    color: var(--ink);
+  }
+  .foot .counter .sep{color: var(--ink-mute)}
+  .foot .counter .total{color: var(--ink-mute)}
+
+  /* No-accent mode (neutral) */
+  .modal.is-neutral{
+    --accent: var(--ink);
+    --accent-deep: var(--ink-soft);
+  }
+  .modal.is-neutral .brand-sub,
+  .modal.is-neutral .crumb .dot,
+  .modal.is-neutral .meta-v .live,
+  .modal.is-neutral .project-title em,
+  .modal.is-neutral .info-card .ic-title em,
+  .modal.is-neutral .project-eyebrow .num{
+    color: var(--ink);
+  }
+  .modal.is-neutral .crumb .dot,
+  .modal.is-neutral .meta-v .live{
+    background: var(--ink);
+  }
+  .modal.is-neutral.is-dark .crumb .dot,
+  .modal.is-neutral.is-dark .meta-v .live{
+    background: var(--ink);
+  }
+
+  /* "Architectural" style — sharper, more technical */
+  .modal.is-arch .project-title{
+    font-family: "Archivo", sans-serif;
+    font-weight: 300;
+    letter-spacing: -.02em;
+  }
+  .modal.is-arch .project-title em{
+    font-style: normal;
+    font-weight: 600;
+  }
+  .modal.is-arch .info-card .ic-title{
+    font-family: "Archivo", sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+  }
+  .modal.is-arch .info-card .ic-title em{ font-style: normal; font-weight: 600}
+  .modal.is-arch .foot .counter{font-family: "Archivo Narrow", sans-serif; font-size:13px}
+
+  /* "Editorial display" style — Italiana for headers */
+  .modal.is-editorial .project-title{
+    font-family: "Italiana", serif;
+    font-weight: 400;
+    letter-spacing: -.005em;
+  }
+  .modal.is-editorial .project-title em{
+    font-family: "Italiana", serif;
+    font-style: italic;
+  }
+
+  @media (max-width: 900px){
+    .stage{padding: 0}
+    .modal{border-radius:0}
+    .project-head{grid-template-columns:1fr; align-items:start; padding:28px 24px 20px}
+    .gallery-wrap{padding: 0 24px 24px}
+    .topbar{padding: 14px 20px; grid-template-columns: auto 1fr auto}
+    .crumb{justify-self:end; gap: 8px}
+    .crumb .label{display:none}
+    .gallery{grid-template-columns: repeat(2, 1fr); aspect-ratio: auto}
+    .tile, .info-card{aspect-ratio: 4/3}
+    .tile.is-hero{grid-column: span 2; aspect-ratio: 16/10}
+    .info-card{grid-column: 2 / 3; grid-row: auto}
+    .foot{padding: 16px 24px 20px; flex-wrap:wrap; gap: 10px}
+  }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "styleVariant": "arch",
+  "accent": "brand",
+  "dark": false,
+  "showInfoCard": true
+}/*EDITMODE-END*/;
+
+// 8 photos for Premium Pilar — modern residential architecture, pools, interiors, renders
+const PHOTOS = [
+  { id: 1, src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80&auto=format&fit=crop", alt: "Exterior render frontal" },
+  { id: 2, src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=80&auto=format&fit=crop", alt: "Pileta nocturna" },
+  { id: 3, src: "https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1600&q=80&auto=format&fit=crop", alt: "Living interior" },
+  { id: 4, src: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1600&q=80&auto=format&fit=crop", alt: "Cocina" },
+  { id: 5, src: "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1600&q=80&auto=format&fit=crop", alt: "Quincho exterior" },
+  { id: 6, src: "https://images.unsplash.com/photo-1572120360610-d971b9d7767c?w=1600&q=80&auto=format&fit=crop", alt: "Vista aérea" },
+  { id: 7, src: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1600&q=80&auto=format&fit=crop", alt: "Pileta de día" },
+  { id: 8, src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80&auto=format&fit=crop", alt: "Render fachada" },
+];
+
+function Logo(){
+  return (
+    <div className="brand">
+      <div>
+        <div className="brand-mark">
+          <span className="isa">ISA</span> IGNACIO SOSA
+        </div>
+        <span className="brand-sub">ARQUITECTO</span>
+      </div>
+    </div>
+  );
+}
+
+function XIcon(){
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+      <path d="M6 6 L18 18 M18 6 L6 18"/>
+    </svg>
+  );
+}
+function PlusIcon(){
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+      <path d="M12 5 L12 19 M5 12 L19 12"/>
+    </svg>
+  );
+}
+function ArrowIcon(){
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+      <path d="M5 12 L19 12 M13 6 L19 12 L13 18"/>
+    </svg>
+  );
+}
+
+function Gallery({ photos, heroId, onSelect, showInfoCard }){
+  // Lay out 8 photos in a 4-col × 3-row grid.
+  // The hero tile occupies positions (col 1-2, row 1-2).
+  // 7 thumbs flow into the remaining 7 cells in document order.
+  // The info card pins to (col 4, row 3) when shown — otherwise the 8th photo fills it.
+  const hero = photos.find(p => p.id === heroId) || photos[0];
+  const rest = photos.filter(p => p.id !== hero.id);
+
+  // Define the 7 small-slot positions explicitly (col/row) to keep them stable
+  // even when the hero changes. Order of slots:
+  const SLOTS = [
+    { col: 3, row: 1 }, // top-right area
+    { col: 4, row: 1 },
+    { col: 3, row: 2 },
+    { col: 4, row: 2 },
+    { col: 1, row: 3 }, // bottom row
+    { col: 2, row: 3 },
+    { col: 3, row: 3 },
+  ];
+
+  // If we don't show info card, we get an 8th slot in (col 4, row 3)
+  const slots = showInfoCard ? SLOTS : [...SLOTS, { col: 4, row: 3 }];
+
+  // Pair rest photos to slots
+  const placed = rest.slice(0, slots.length).map((p, i) => ({ ...p, ...slots[i] }));
+
+  return (
+    <div className="gallery">
+      <div
+        key={hero.id}
+        className="tile is-hero"
+        style={{ gridColumn: "1 / 3", gridRow: "1 / 3" }}
+      >
+        <img src={hero.src} alt={hero.alt} draggable="false" />
+        <div className="tile-idx">{String(photos.indexOf(hero)+1).padStart(2,'0')} · {hero.alt}</div>
+      </div>
+
+      {placed.map((p) => (
+        <div
+          key={p.id}
+          className="tile"
+          style={{ gridColumn: `${p.col} / span 1`, gridRow: `${p.row} / span 1` }}
+          onClick={() => onSelect(p.id)}
+        >
+          <img src={p.src} alt={p.alt} draggable="false" loading="lazy" />
+          <div className="tile-idx">{String(photos.indexOf(p)+1).padStart(2,'0')}</div>
+        </div>
+      ))}
+
+      {showInfoCard && (
+        <div className="info-card" style={{ gridColumn: "4 / 5", gridRow: "3 / 4" }}>
+          <div>
+            <div className="ic-eyebrow">Más sobre la obra</div>
+            <div className="ic-title">Ver memoria <em>descriptiva</em>, planos y avance</div>
+          </div>
+          <button className="plus-btn" aria-label="Más información" onClick={() => alert("→ Próxima pestaña: detalles del proyecto")}>
+            <PlusIcon/>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function App(){
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [heroId, setHeroId] = useState(1);
+
+  const modalClasses = useMemo(() => {
+    return [
+      "modal",
+      t.dark ? "is-dark" : "",
+      t.accent === "neutral" ? "is-neutral" : "",
+      t.styleVariant === "arch" ? "is-arch" : "",
+      t.styleVariant === "editorial" ? "is-editorial" : "",
+      t.styleVariant === "classic" ? "is-classic" : "",
+    ].filter(Boolean).join(" ");
+  }, [t.dark, t.accent, t.styleVariant]);
+
+  return (
+    <div className="stage">
+      <div className={modalClasses}>
+        {/* TOP BAR */}
+        <div className="topbar">
+          <Logo/>
+          <div className="crumb">
+            <span className="dot"></span>
+            <span className="label">En Ejecución</span>
+          </div>
+          <div className="topbar-right">
+            <button className="icon-btn" aria-label="Cerrar"><XIcon/></button>
+          </div>
+        </div>
+
+        {/* PROJECT HEADER */}
+        <div className="project-head">
+          <div>
+            <p className="project-eyebrow"><span className="num">01</span> Obra residencial · 2024 – Presente</p>
+            <h1 className="project-title">Premium <em>Pilar</em></h1>
+          </div>
+          <div className="meta">
+            <div className="meta-item">
+              <span className="meta-k">Ubicación</span>
+              <span className="meta-v">Pilar, Buenos Aires</span>
+            </div>
+            <div className="meta-item">
+              <span className="meta-k">Superficie</span>
+              <span className="meta-v">680 m²</span>
+            </div>
+            <div className="meta-item">
+              <span className="meta-k">Estado</span>
+              <span className="meta-v"><span className="live"></span>En ejecución</span>
+            </div>
+          </div>
+        </div>
+
+        {/* GALLERY */}
+        <div className="gallery-wrap">
+          <Gallery
+            photos={PHOTOS}
+            heroId={heroId}
+            onSelect={(id) => setHeroId(id)}
+            showInfoCard={t.showInfoCard}
+          />
+        </div>
+
+        {/* FOOTER */}
+        <div className="foot">
+          <div className="nav">
+            <a>← Proyecto anterior</a>
+            <a>Proyecto siguiente →</a>
+          </div>
+          <div className="counter">
+            <span className="cur">{String(PHOTOS.findIndex(p=>p.id===heroId)+1).padStart(2,'0')}</span>
+            <span className="sep">/</span>
+            <span className="total">08</span>
+          </div>
+        </div>
+      </div>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Estilo"/>
+        <TweakRadio
+          label="Variante tipográfica"
+          value={t.styleVariant}
+          options={[
+            { value: "editorial", label: "Editorial" },
+            { value: "classic", label: "Clásica" },
+            { value: "arch", label: "Técnica" },
+          ]}
+          onChange={(v) => setTweak('styleVariant', v)}
+        />
+        <TweakRadio
+          label="Acento de color"
+          value={t.accent}
+          options={[
+            { value: "brand", label: "Rojo marca" },
+            { value: "neutral", label: "Neutro" },
+          ]}
+          onChange={(v) => setTweak('accent', v)}
+        />
+        <TweakToggle
+          label="Modo oscuro"
+          value={t.dark}
+          onChange={(v) => setTweak('dark', v)}
+        />
+        <TweakSection label="Layout"/>
+        <TweakToggle
+          label="Tarjeta de info con +"
+          value={t.showInfoCard}
+          onChange={(v) => setTweak('showInfoCard', v)}
+        />
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

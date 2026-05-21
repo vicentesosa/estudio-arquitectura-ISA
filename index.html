@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>if (window.innerWidth <= 768) window.location.href = 'preview.html';</script>
   <title>Arquitecto — Inicio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;800;900&family=Archivo:wght@300;400;500;600;700&family=Archivo+Narrow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;800;900&family=Archivo:wght@300;400;500;600;700&family=Archivo+Narrow:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -681,6 +681,120 @@
       color: #fff;
     }
 
+    /* ── OBRAS FINALIZADAS (nuevo diseño) ── */
+    #trabajosOverlay {
+      background: #1d1b18 !important;
+      overflow: hidden !important;
+      padding: 16px !important;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    #trabajosOverlay.active { display: flex !important; }
+
+    .of-modal {
+      width: 100%; max-width: 1400px;
+      background: #f6f4ef;
+      box-shadow: 0 30px 80px rgba(0,0,0,.45), 0 2px 0 rgba(0,0,0,.2);
+      display: flex; flex-direction: column;
+      overflow: hidden; border-radius: 2px;
+      height: calc(100vh - 32px);
+      position: relative;
+    }
+
+    /* topbar */
+    .of-topbar {
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center; padding: 12px 28px;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      background: #f6f4ef; flex-shrink: 0;
+    }
+    .of-brand { display: flex; align-items: center; gap: 14px; }
+    .of-brand-mark { font-family:"Archivo",sans-serif; font-weight:800; font-size:16px; letter-spacing:.01em; line-height:1; color:#1a1a1a; }
+    .of-brand-mark .of-isa { color:#c9442e; letter-spacing:.02em; }
+    .of-brand-sub { display:block; font-family:"Archivo Narrow",sans-serif; font-weight:500; font-size:10px; letter-spacing:.32em; color:#c9442e; margin-top:4px; }
+    .of-crumb { font-family:"Archivo Narrow",sans-serif; font-size:11px; letter-spacing:.42em; text-transform:uppercase; color:#4a4a4a; display:flex; align-items:center; gap:14px; justify-self:center; }
+    .of-sep-line { width:26px; height:1px; background:#8a8580; opacity:.6; display:inline-block; }
+    .of-crumb-here { color:#1a1a1a; font-weight:600; }
+    .of-topbar-right { display:flex; align-items:center; gap:8px; justify-self:end; }
+    .of-icon-btn { appearance:none; border:0; background:transparent; width:34px; height:34px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:#4a4a4a; cursor:pointer; transition:all .2s ease; }
+    .of-icon-btn:hover { background:rgba(0,0,0,.06); color:#1a1a1a; }
+    .of-icon-btn svg { width:16px; height:16px; }
+
+    /* project header */
+    .of-project-head { padding:18px 32px 14px; display:grid; grid-template-columns:1fr auto; align-items:end; gap:24px; flex-shrink:0; }
+    .of-eyebrow { font-family:"Archivo Narrow",sans-serif; font-size:10px; letter-spacing:.42em; text-transform:uppercase; color:#8a8580; margin:0 0 10px; display:flex; align-items:center; gap:14px; }
+    .of-num { color:#c9442e; font-weight:600; }
+    .of-completed { display:inline-flex; align-items:center; gap:8px; padding:4px 10px; border:1px solid #c9442e; color:#c9442e; border-radius:2px; letter-spacing:.28em; font-weight:600; }
+    .of-completed::before { content:""; width:6px; height:6px; background:#c9442e; border-radius:50%; display:inline-block; }
+    .of-title { font-family:"Cormorant Garamond",serif; font-weight:400; font-size:clamp(30px,4vw,58px); line-height:.95; letter-spacing:-.015em; margin:0; color:#1a1a1a; }
+    .of-title em { font-style:italic; font-weight:300; color:#c9442e; }
+    .of-meta { display:flex; gap:32px; padding-bottom:6px; }
+    .of-meta-item { display:flex; flex-direction:column; gap:4px; }
+    .of-meta-k { font-family:"Archivo Narrow",sans-serif; font-size:9px; letter-spacing:.32em; text-transform:uppercase; color:#8a8580; }
+    .of-meta-v { font-family:"Archivo",sans-serif; font-size:13px; font-weight:500; color:#1a1a1a; letter-spacing:.01em; }
+
+    /* gallery */
+    .of-gal { padding:4px 28px 10px; flex:1; min-height:0; display:flex; flex-direction:column; overflow:hidden; }
+
+    /* stage */
+    .of-stage-wrap { position:relative; flex:1; min-height:0; overflow:hidden; background:#0e0d0b; cursor:zoom-in; }
+    .of-stage-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transform:scale(1.04); transition:opacity .8s cubic-bezier(.4,0,.2,1), transform 6s cubic-bezier(.2,.7,.2,1); }
+    .of-stage-img.of-active { opacity:1; transform:scale(1); }
+    .of-vignette { position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,.55) 100%); pointer-events:none; z-index:1; }
+    .of-stage-caption { position:absolute; left:24px; right:24px; bottom:20px; display:flex; align-items:flex-end; justify-content:space-between; gap:24px; color:#fff; pointer-events:none; z-index:2; }
+    .of-caption-left { display:flex; flex-direction:column; gap:6px; }
+    .of-idx { font-family:"Archivo Narrow",sans-serif; font-size:10px; letter-spacing:.42em; color:rgba(255,255,255,.7); text-transform:uppercase; }
+    .of-idx .of-cur-num { color:#fff; }
+    .of-ttl { font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:300; font-size:22px; color:#fff; letter-spacing:.005em; line-height:1; text-shadow:0 2px 18px rgba(0,0,0,.5); }
+    .of-zoom-hint { pointer-events:auto; appearance:none; border:0; background:rgba(255,255,255,.92); color:#1a1a1a; padding:10px 14px; font-family:"Archivo Narrow",sans-serif; font-size:10px; letter-spacing:.32em; text-transform:uppercase; display:inline-flex; align-items:center; gap:10px; cursor:pointer; transition:background .2s ease, transform .2s ease; }
+    .of-zoom-hint:hover { background:#c9442e; color:#fff; transform:translateY(-2px); }
+    .of-zoom-hint svg { width:14px; height:14px; }
+    .of-stage-arrow { position:absolute; top:50%; transform:translateY(-50%); width:44px; height:64px; background:rgba(0,0,0,0); border:0; color:#fff; cursor:pointer; opacity:0; transition:opacity .25s ease, background .2s ease; display:flex; align-items:center; justify-content:center; z-index:2; }
+    .of-stage-wrap:hover .of-stage-arrow { opacity:.85; }
+    .of-stage-arrow:hover { opacity:1 !important; background:rgba(0,0,0,.2); }
+    .of-stage-arrow.of-prev { left:0; }
+    .of-stage-arrow.of-next { right:0; }
+    .of-stage-arrow svg { width:22px; height:22px; }
+
+    /* thumbnail strip */
+    .of-strip { margin-top:7px; display:grid; grid-template-columns:repeat(8,1fr); gap:5px; flex-shrink:0; }
+    .of-thumb { position:relative; aspect-ratio:4/3; overflow:hidden; cursor:pointer; background:#1a1916; }
+    .of-thumb img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .9s cubic-bezier(.2,.7,.2,1); }
+    .of-thumb:hover img { transform:scale(1.08); }
+    .of-thumb::before { content:""; position:absolute; inset:0; background:rgba(0,0,0,.35); transition:background .3s ease; z-index:1; }
+    .of-thumb:hover::before { background:rgba(0,0,0,.1); }
+    .of-thumb.of-active::before { background:rgba(0,0,0,0); }
+    .of-thumb.of-active { outline:2px solid #c9442e; outline-offset:-2px; }
+    .of-thumb-num { position:absolute; top:6px; left:7px; z-index:2; font-family:"Archivo Narrow",sans-serif; font-size:9px; letter-spacing:.28em; color:rgba(255,255,255,.95); text-shadow:0 1px 4px rgba(0,0,0,.5); }
+
+    /* footer */
+    .of-foot { padding:12px 32px 14px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(0,0,0,.12); font-family:"Archivo Narrow",sans-serif; font-size:10px; letter-spacing:.28em; text-transform:uppercase; color:#8a8580; flex-shrink:0; }
+    .of-foot-nav { display:flex; gap:18px; align-items:center; }
+    .of-foot-nav a { color:#4a4a4a; text-decoration:none; cursor:pointer; transition:color .2s ease; }
+    .of-foot-nav a:hover { color:#c9442e; }
+    .of-info-cta { display:inline-flex; align-items:center; gap:10px; color:#1a1a1a; font-weight:600; cursor:pointer; background:transparent; border:0; padding:8px 0; font-family:"Archivo Narrow",sans-serif; font-size:10px; letter-spacing:.28em; text-transform:uppercase; }
+    .of-info-cta:hover { color:#c9442e; }
+    .of-info-plus { width:22px; height:22px; border-radius:50%; background:#c9442e; color:#fff; display:inline-flex; align-items:center; justify-content:center; transition:transform .25s ease; }
+    .of-info-cta:hover .of-info-plus { transform:rotate(90deg); }
+    .of-info-plus svg { width:12px; height:12px; }
+
+    /* lightbox */
+    .of-lightbox { position:fixed; inset:0; background:rgba(8,7,6,.96); z-index:1200; display:flex; align-items:center; justify-content:center; padding:60px; opacity:0; pointer-events:none; transition:opacity .3s ease; }
+    .of-lightbox.of-lb-open { opacity:1; pointer-events:auto; }
+    .of-lb-img { max-width:100%; max-height:100%; object-fit:contain; box-shadow:0 30px 80px rgba(0,0,0,.5); opacity:0; transform:scale(.96); transition:opacity .35s ease .05s, transform .45s cubic-bezier(.2,.7,.2,1); }
+    .of-lightbox.of-lb-open .of-lb-img { opacity:1; transform:scale(1); }
+    .of-lb-close { position:absolute; top:24px; right:28px; appearance:none; border:0; background:transparent; color:rgba(255,255,255,.85); width:40px; height:40px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:color .2s ease, transform .2s ease; }
+    .of-lb-close:hover { color:#c9442e; transform:rotate(90deg); }
+    .of-lb-close svg { width:22px; height:22px; }
+    .of-lb-arrow { position:absolute; top:50%; transform:translateY(-50%); width:56px; height:56px; border-radius:50%; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.04); color:rgba(255,255,255,.9); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; appearance:none; transition:background .2s ease, border-color .2s ease; }
+    .of-lb-arrow:hover { background:#c9442e; border-color:#c9442e; color:#fff; }
+    .of-lb-prev { left:30px; }
+    .of-lb-next { right:30px; }
+    .of-lb-arrow svg { width:20px; height:20px; }
+    .of-lb-meta { position:absolute; bottom:26px; left:0; right:0; text-align:center; color:rgba(255,255,255,.7); font-family:"Archivo Narrow",sans-serif; font-size:10px; letter-spacing:.42em; text-transform:uppercase; }
+    .of-lb-ttl { display:block; margin-top:6px; font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:300; font-size:18px; color:#fff; letter-spacing:.005em; text-transform:none; }
+
     /* ── EN EJECUCIÓN (nuevo diseño) ── */
     #ejecucionOverlay {
       background: #1d1b18 !important;
@@ -1069,151 +1183,84 @@
   </div>
 
   <!-- TRABAJOS OVERLAY -->
+  <!-- TRABAJOS OVERLAY -->
   <div class="trabajos-overlay" id="trabajosOverlay">
-    <div class="trabajos-header">
-      <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
-      <span class="nav-seccion">Trabajos</span>
-      <div class="nav-derecha">
-        <button class="trabajos-close" onclick="cerrarTrabajos()">✕</button>
+    <div class="of-modal">
+
+      <div class="of-topbar">
+        <div class="of-brand"><div><div class="of-brand-mark"><span class="of-isa">ISA</span> IGNACIO SOSA</div><span class="of-brand-sub">ARQUITECTO</span></div></div>
+        <div class="of-crumb"><span>Trabajos</span><span class="of-sep-line"></span><span class="of-crumb-here">Obras Finalizadas</span></div>
+        <div class="of-topbar-right">
+          <button class="of-icon-btn" onclick="cerrarTrabajos()" aria-label="Cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>
+          </button>
+        </div>
       </div>
+
+      <div class="of-project-head">
+        <div>
+          <p class="of-eyebrow"><span class="of-num" id="ofNum">01</span><span id="ofTipo">Obra residencial</span><span class="of-completed" id="ofBadge">Finalizada · 2023</span></p>
+          <h1 class="of-title"><span id="ofTitulo">Santa María</span> <em id="ofTituloEm">de Tigre</em></h1>
+        </div>
+        <div class="of-meta">
+          <div class="of-meta-item"><span class="of-meta-k">Ubicación</span><span class="of-meta-v" id="ofUbicacion">Tigre, Buenos Aires</span></div>
+          <div class="of-meta-item"><span class="of-meta-k">Superficie</span><span class="of-meta-v" id="ofSuperficie">420 m²</span></div>
+          <div class="of-meta-item"><span class="of-meta-k">Imágenes</span><span class="of-meta-v" id="ofImagenes">08 fotografías</span></div>
+        </div>
+      </div>
+
+      <div class="of-gal">
+        <div class="of-stage-wrap" id="ofStage">
+          <div class="of-vignette"></div>
+          <button class="of-stage-arrow of-prev" onclick="ofStagePrev()" aria-label="Anterior">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"/></svg>
+          </button>
+          <button class="of-stage-arrow of-next" onclick="ofStageNext()" aria-label="Siguiente">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 L15 12 L9 18"/></svg>
+          </button>
+          <div class="of-stage-caption">
+            <div class="of-caption-left">
+              <div class="of-idx"><span class="of-cur-num" id="ofImgCur">01</span> / <span id="ofImgTotal">08</span> · <span id="ofImgTag">Exterior</span></div>
+              <div class="of-ttl" id="ofImgAlt">Casa completa</div>
+            </div>
+            <button class="of-zoom-hint" onclick="ofOpenLightbox()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9 V4 H9 M20 9 V4 H15 M4 15 V20 H9 M20 15 V20 H15"/></svg>
+              Ver en grande
+            </button>
+          </div>
+        </div>
+        <div class="of-strip" id="ofStrip"></div>
+      </div>
+
+      <div class="of-foot">
+        <div class="of-foot-nav">
+          <a onclick="ofPrevProject()" id="ofPrevName">← Obra anterior</a>
+          <a onclick="ofNextProject()" id="ofNextName">Siguiente →</a>
+        </div>
+        <button class="of-info-cta">
+          <span>Memoria + ficha técnica</span>
+          <span class="of-info-plus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5 L12 19 M5 12 L19 12"/></svg></span>
+        </button>
+      </div>
+
     </div>
-    <div class="trabajos-lista">
 
-      <div class="trabajo-item">
-        <div class="trabajo-strips">
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/casa-completa-1.avif'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/imagen-1-pileta.avif'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/living%203.avif'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/living-1.avif'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/living-2.avif'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/living-4.avif'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/parque-1.avif'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/SANTA MARIA/quincho-1.avif'); background-size: cover; background-position: center;"></div>
-        </div>
-        <span class="trabajo-nombre">Santa María de Tigre</span>
-        <div class="trabajo-btn-mas">+</div>
+    <!-- LIGHTBOX -->
+    <div class="of-lightbox" id="ofLightbox">
+      <button class="of-lb-close" onclick="ofCloseLightbox()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>
+      </button>
+      <button class="of-lb-arrow of-lb-prev" onclick="ofLbNav(-1)" aria-label="Anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6 L9 12 L15 18"/></svg>
+      </button>
+      <button class="of-lb-arrow of-lb-next" onclick="ofLbNav(1)" aria-label="Siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 L15 12 L9 18"/></svg>
+      </button>
+      <img class="of-lb-img" id="ofLbImg" src="" alt="" onclick="event.stopPropagation()">
+      <div class="of-lb-meta">
+        <span id="ofLbIdx">01 / 08 · Exterior</span>
+        <span class="of-lb-ttl" id="ofLbTtl">Casa completa</span>
       </div>
-
-      <div class="trabajo-item">
-        <div class="trabajo-strips">
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 0% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 14.2857% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 28.5714% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 42.8571% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 57.1428% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 71.4285% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 85.7142% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-2.jpg'); background-position: 100% 50%;"></div>
-        </div>
-        <span class="trabajo-nombre">Pilarica</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
-
-      <div class="trabajo-item">
-        <div class="trabajo-strips">
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 0% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 14.2857% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 28.5714% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 42.8571% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 57.1428% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 71.4285% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 85.7142% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-3.jpg'); background-position: 100% 50%;"></div>
-        </div>
-        <span class="trabajo-nombre">Praderas</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
-
-      <div class="trabajo-item">
-        <div class="trabajo-strips">
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 0% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 14.2857% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 28.5714% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 42.8571% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 57.1428% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 71.4285% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 85.7142% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-4.jpg'); background-position: 100% 50%;"></div>
-        </div>
-        <span class="trabajo-nombre">Ramos Mejía</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
-
-      <div class="trabajo-item">
-        <div class="trabajo-strips">
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 0% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 14.2857% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 28.5714% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 42.8571% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 57.1428% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 71.4285% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 85.7142% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-5.jpg'); background-position: 100% 50%;"></div>
-        </div>
-        <span class="trabajo-nombre">Alto del Molino: Codominio</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
-
-      <div class="trabajo-item">
-        <div class="trabajo-strips">
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 0% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 14.2857% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 28.5714% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 42.8571% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 57.1428% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 71.4285% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 85.7142% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-7.jpg'); background-position: 100% 50%;"></div>
-        </div>
-        <span class="trabajo-nombre">San Sebastián - Área II 184</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
-
-      <div class="trabajo-item">
-        <div class="trabajo-strips">
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 0% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 14.2857% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 28.5714% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 42.8571% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 57.1428% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 71.4285% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 85.7142% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-8.jpg'); background-position: 100% 50%;"></div>
-        </div>
-        <span class="trabajo-nombre">Bodega-Pilar</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
-
-      <div class="trabajo-item">
-        <div class="trabajo-strips">
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 0% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 14.2857% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 28.5714% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 42.8571% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 57.1428% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 71.4285% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 85.7142% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-9.jpg'); background-position: 100% 50%;"></div>
-        </div>
-        <span class="trabajo-nombre">San Vicente</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
-
-      <div class="trabajo-item">
-        <div class="trabajo-strips">
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 0% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 14.2857% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 28.5714% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 42.8571% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 57.1428% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 71.4285% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 85.7142% 50%;"></div>
-          <div class="trabajo-strip" onclick="toggleStrip(this)" style="background-image: url('imagenes/trabajo-10.jpg'); background-position: 100% 50%;"></div>
-        </div>
-        <span class="trabajo-nombre">3 Terrenos 3 Proyectos</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
-
     </div>
   </div>
 
@@ -1351,15 +1398,153 @@
     }
 
     // ── TRABAJOS
+    /* ── OBRAS FINALIZADAS ── */
+    const OF_PROJECTS = [
+      {
+        num: '01', tipo: 'Obra residencial', badge: 'Finalizada · 2023',
+        titulo: 'Santa María', tituloEm: 'de Tigre',
+        ubicacion: 'Tigre, Buenos Aires', superficie: '420 m²',
+        images: [
+          { src: 'imagenes/SANTA MARIA/casa-completa-1.avif', alt: 'Casa completa',  tag: 'Exterior'  },
+          { src: 'imagenes/SANTA MARIA/imagen-1-pileta.avif', alt: 'Pileta',          tag: 'Pileta'    },
+          { src: 'imagenes/SANTA MARIA/living 3.avif',        alt: 'Living',          tag: 'Living'    },
+          { src: 'imagenes/SANTA MARIA/living-1.avif',        alt: 'Estar',           tag: 'Interior'  },
+          { src: 'imagenes/SANTA MARIA/living-2.avif',        alt: 'Comedor',         tag: 'Interior'  },
+          { src: 'imagenes/SANTA MARIA/living-4.avif',        alt: 'Detalle',         tag: 'Interior'  },
+          { src: 'imagenes/SANTA MARIA/parque-1.avif',        alt: 'Parque',          tag: 'Exterior'  },
+          { src: 'imagenes/SANTA MARIA/quincho-1.avif',       alt: 'Quincho',         tag: 'Quincho'   },
+        ]
+      }
+    ];
+
+    let ofIdx = 0, ofImgIdx = 0, ofAutoTimer = null;
+
+    function ofRender(projectIdx) {
+      ofIdx = projectIdx; ofImgIdx = 0;
+      const p = OF_PROJECTS[ofIdx];
+      document.getElementById('ofNum').textContent       = p.num;
+      document.getElementById('ofTipo').textContent      = p.tipo;
+      document.getElementById('ofBadge').textContent     = p.badge;
+      document.getElementById('ofTitulo').textContent    = p.titulo;
+      document.getElementById('ofTituloEm').textContent  = p.tituloEm;
+      document.getElementById('ofUbicacion').textContent = p.ubicacion;
+      document.getElementById('ofSuperficie').textContent= p.superficie;
+      document.getElementById('ofImagenes').textContent  = String(p.images.length).padStart(2,'0') + ' fotografías';
+      const prev = OF_PROJECTS[(ofIdx - 1 + OF_PROJECTS.length) % OF_PROJECTS.length];
+      const next = OF_PROJECTS[(ofIdx + 1) % OF_PROJECTS.length];
+      document.getElementById('ofPrevName').textContent = '← ' + prev.titulo;
+      document.getElementById('ofNextName').textContent = next.titulo + ' →';
+      ofBuildStage(); ofBuildStrip(); ofStartAutoplay();
+    }
+
+    function ofBuildStage() {
+      const p = OF_PROJECTS[ofIdx];
+      const stage = document.getElementById('ofStage');
+      stage.querySelectorAll('.of-stage-img').forEach(el => el.remove());
+      const vignette = stage.querySelector('.of-vignette');
+      p.images.forEach((img, i) => {
+        const el = document.createElement('img');
+        el.className = 'of-stage-img' + (i === ofImgIdx ? ' of-active' : '');
+        el.src = img.src; el.alt = img.alt; el.draggable = false;
+        stage.insertBefore(el, vignette);
+      });
+      ofUpdateCaption();
+    }
+
+    function ofUpdateCaption() {
+      const img = OF_PROJECTS[ofIdx].images[ofImgIdx];
+      const total = OF_PROJECTS[ofIdx].images.length;
+      document.getElementById('ofImgCur').textContent   = String(ofImgIdx + 1).padStart(2,'0');
+      document.getElementById('ofImgTotal').textContent = String(total).padStart(2,'0');
+      document.getElementById('ofImgTag').textContent   = img.tag;
+      document.getElementById('ofImgAlt').textContent   = img.alt;
+    }
+
+    function ofSetImage(idx) {
+      const total = OF_PROJECTS[ofIdx].images.length;
+      const imgs = document.querySelectorAll('#ofStage .of-stage-img');
+      imgs[ofImgIdx].classList.remove('of-active');
+      ofImgIdx = (idx + total) % total;
+      imgs[ofImgIdx].classList.add('of-active');
+      ofUpdateCaption(); ofUpdateStrip(); ofResetAutoplay();
+    }
+
+    function ofBuildStrip() {
+      const p = OF_PROJECTS[ofIdx];
+      const strip = document.getElementById('ofStrip');
+      strip.innerHTML = '';
+      p.images.forEach((img, i) => {
+        const div = document.createElement('div');
+        div.className = 'of-thumb' + (i === ofImgIdx ? ' of-active' : '');
+        div.onclick = () => ofSetImage(i);
+        div.innerHTML = `<img src="${img.src}" alt="${img.alt}" loading="lazy" draggable="false"><span class="of-thumb-num">${String(i+1).padStart(2,'0')}</span>`;
+        strip.appendChild(div);
+      });
+    }
+
+    function ofUpdateStrip() {
+      document.querySelectorAll('#ofStrip .of-thumb').forEach((th, i) => th.classList.toggle('of-active', i === ofImgIdx));
+    }
+
+    function ofStagePrev() { ofSetImage(ofImgIdx - 1); }
+    function ofStageNext() { ofSetImage(ofImgIdx + 1); }
+
+    function ofStartAutoplay() {
+      ofStopAutoplay();
+      ofAutoTimer = setInterval(() => ofSetImage(ofImgIdx + 1), 4200);
+    }
+    function ofStopAutoplay()  { if (ofAutoTimer) { clearInterval(ofAutoTimer); ofAutoTimer = null; } }
+    function ofResetAutoplay() { ofStartAutoplay(); }
+    function ofPrevProject()   { ofRender((ofIdx - 1 + OF_PROJECTS.length) % OF_PROJECTS.length); }
+    function ofNextProject()   { ofRender((ofIdx + 1) % OF_PROJECTS.length); }
+
+    function ofOpenLightbox() {
+      ofStopAutoplay();
+      const img = OF_PROJECTS[ofIdx].images[ofImgIdx];
+      const total = OF_PROJECTS[ofIdx].images.length;
+      document.getElementById('ofLbImg').src  = img.src;
+      document.getElementById('ofLbImg').alt  = img.alt;
+      document.getElementById('ofLbIdx').textContent = String(ofImgIdx+1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0') + ' · ' + img.tag;
+      document.getElementById('ofLbTtl').textContent = img.alt;
+      const lb = document.getElementById('ofLightbox');
+      lb.classList.add('of-lb-open');
+      lb.onclick = (e) => { if (e.target === lb) ofCloseLightbox(); };
+      document.addEventListener('keydown', ofLbKeyHandler);
+    }
+    function ofCloseLightbox() {
+      document.getElementById('ofLightbox').classList.remove('of-lb-open');
+      document.removeEventListener('keydown', ofLbKeyHandler);
+      ofStartAutoplay();
+    }
+    function ofLbKeyHandler(e) {
+      if (e.key === 'Escape')     ofCloseLightbox();
+      if (e.key === 'ArrowLeft')  ofLbNav(-1);
+      if (e.key === 'ArrowRight') ofLbNav(1);
+    }
+    function ofLbNav(dir) {
+      const p = OF_PROJECTS[ofIdx];
+      ofImgIdx = (ofImgIdx + dir + p.images.length) % p.images.length;
+      document.querySelectorAll('#ofStage .of-stage-img').forEach((el,i) => el.classList.toggle('of-active', i === ofImgIdx));
+      ofUpdateCaption(); ofUpdateStrip();
+      const img = p.images[ofImgIdx];
+      document.getElementById('ofLbImg').src  = img.src;
+      document.getElementById('ofLbImg').alt  = img.alt;
+      document.getElementById('ofLbIdx').textContent = String(ofImgIdx+1).padStart(2,'0') + ' / ' + String(p.images.length).padStart(2,'0') + ' · ' + img.tag;
+      document.getElementById('ofLbTtl').textContent = img.alt;
+    }
+
     function abrirTrabajos() {
       document.getElementById('trabajosOverlay').classList.add('active');
-      // Cerrar el menú lateral
+      ofRender(0);
       pinned = false;
       menu.classList.remove('visible');
     }
 
     function cerrarTrabajos() {
       document.getElementById('trabajosOverlay').classList.remove('active');
+      ofStopAutoplay();
+      document.getElementById('ofLightbox').classList.remove('of-lb-open');
+      document.removeEventListener('keydown', ofLbKeyHandler);
     }
 
     /* ── EN EJECUCIÓN ── */

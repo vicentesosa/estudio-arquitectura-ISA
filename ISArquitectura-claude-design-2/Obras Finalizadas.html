@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ISA · Obras Finalizadas — Santa María de Tigre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Archivo:wght@300;400;500;600;700&family=Archivo+Narrow:wght@400;500;600&family=Italiana&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #f6f4ef;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-mute: #8a8580;
+    --line: #d9d4cc;
+    --line-soft: #ebe7df;
+    --paper: #ffffff;
+    --accent: #c9442e;
+    --accent-deep: #a83820;
+    --hairline: rgba(0,0,0,.12);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#2a2825}
+  body{
+    font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Outer modal wrapper */
+  .stage{
+    min-height: 100vh;
+    padding: 28px;
+    display:flex;
+    align-items:stretch;
+    justify-content:center;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(255,255,255,.04), transparent 60%),
+      #1d1b18;
+  }
+  .modal{
+    width: 100%;
+    max-width: 1400px;
+    background: var(--bg);
+    box-shadow: 0 30px 80px rgba(0,0,0,.45), 0 2px 0 rgba(0,0,0,.2);
+    display:flex; flex-direction:column;
+    overflow:hidden;
+    border-radius: 2px;
+  }
+
+  /* dark variant */
+  .modal.is-dark{
+    --bg:#111110;
+    --ink:#f3efe7;
+    --ink-soft:#c9c3b8;
+    --ink-mute:#7a766f;
+    --line:#2a2825;
+    --line-soft:#1b1a17;
+    --paper:#1a1916;
+    --hairline: rgba(255,255,255,.1);
+    color: var(--ink);
+  }
+  .modal.is-dark{background:#111110}
+
+  /* TOP BAR */
+  .topbar{
+    display:grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items:center;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--bg);
+  }
+  .modal.is-dark .topbar{background:#111110}
+
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-mark{
+    font-family:"Archivo", sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: .01em;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .brand-mark .isa{color: var(--accent); letter-spacing:.02em}
+  .brand-sub{
+    display:block;
+    font-family:"Archivo Narrow", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: .32em;
+    color: var(--accent);
+    margin-top: 4px;
+  }
+
+  .crumb{
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 11px;
+    letter-spacing: .42em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display:flex; align-items:center; gap:14px;
+    justify-self:center;
+  }
+  .crumb .sep-line{
+    width: 26px; height: 1px;
+    background: var(--ink-mute);
+    opacity: .6;
+  }
+  .crumb .here{color: var(--ink); font-weight: 600}
+
+  .topbar-right{
+    display:flex; align-items:center; gap:8px;
+    justify-self:end;
+  }
+  .icon-btn{
+    appearance:none;border:0;background:transparent;
+    width:34px;height:34px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    color: var(--ink-soft);
+    cursor:pointer;
+    transition: all .2s ease;
+  }
+  .icon-btn:hover{background: rgba(0,0,0,.06); color: var(--ink)}
+  .modal.is-dark .icon-btn:hover{background: rgba(255,255,255,.08)}
+  .icon-btn svg{width:16px;height:16px}
+
+  /* PROJECT HEADER */
+  .project-head{
+    padding: 36px 40px 24px;
+    display:grid;
+    grid-template-columns: 1fr auto;
+    align-items:end;
+    gap: 24px;
+  }
+  .project-eyebrow{
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 10px;
+    letter-spacing: .42em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin: 0 0 10px;
+    display:flex; align-items:center; gap: 14px;
+  }
+  .project-eyebrow .num{
+    color: var(--accent);
+    font-weight:600;
+  }
+  .project-eyebrow .completed{
+    display:inline-flex; align-items:center; gap: 8px;
+    padding: 4px 10px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 2px;
+    letter-spacing: .28em;
+    font-weight: 600;
+  }
+  .project-eyebrow .completed::before{
+    content:"";
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    display:inline-block;
+  }
+  .project-title{
+    font-family:"Cormorant Garamond", serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5.2vw, 68px);
+    line-height: .95;
+    letter-spacing: -.015em;
+    margin: 0;
+    color: var(--ink);
+  }
+  .project-title em{
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+
+  .meta{
+    display:flex;
+    gap: 32px;
+    padding-bottom: 6px;
+  }
+  .meta-item{
+    display:flex; flex-direction:column; gap:4px;
+    min-width: 0;
+  }
+  .meta-k{
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 9px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .meta-v{
+    font-family:"Archivo", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: .01em;
+  }
+
+  /* ===== STAGE: hero + strip ===== */
+  .gal{
+    padding: 4px 40px 28px;
+  }
+  .stage-wrap{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #0e0d0b;
+    cursor: zoom-in;
+  }
+  .stage-img{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity .8s cubic-bezier(.4,0,.2,1), transform 6s cubic-bezier(.2,.7,.2,1);
+    will-change: opacity, transform;
+  }
+  .stage-img.is-active{
+    opacity: 1;
+    transform: scale(1);
+  }
+  .stage-vignette{
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%);
+    pointer-events: none;
+  }
+  .stage-caption{
+    position:absolute;
+    left: 24px; right: 24px; bottom: 22px;
+    display:flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px;
+    color: #fff;
+    pointer-events: none;
+  }
+  .stage-caption .left{display:flex; flex-direction:column; gap: 6px}
+  .stage-caption .idx{
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 10px;
+    letter-spacing: .42em;
+    color: rgba(255,255,255,.7);
+    text-transform: uppercase;
+  }
+  .stage-caption .idx .cur{color: #fff}
+  .stage-caption .ttl{
+    font-family:"Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 22px;
+    color: #fff;
+    letter-spacing: .005em;
+    line-height: 1;
+    text-shadow: 0 2px 18px rgba(0,0,0,.5);
+  }
+
+  .stage-zoom-hint{
+    pointer-events: auto;
+    appearance:none; border:0;
+    background: rgba(255,255,255,.92);
+    color: #1a1a1a;
+    padding: 10px 14px;
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 10px;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    display:inline-flex; align-items:center; gap: 10px;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+  }
+  .stage-zoom-hint:hover{
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+  .stage-zoom-hint svg{width:14px;height:14px}
+
+  /* Prev/next arrows on stage */
+  .stage-arrow{
+    position:absolute;
+    top:50%; transform: translateY(-50%);
+    width: 44px; height: 64px;
+    background: rgba(0,0,0,.0);
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .25s ease, background .2s ease;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .stage-wrap:hover .stage-arrow{ opacity: .85 }
+  .stage-arrow:hover{ opacity: 1; background: rgba(0,0,0,.2) }
+  .stage-arrow.prev{ left: 0 }
+  .stage-arrow.next{ right: 0 }
+  .stage-arrow svg{ width: 22px; height: 22px }
+
+  /* ===== Thumbnail strip ===== */
+  .strip{
+    margin-top: 10px;
+    display:grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+  }
+  .thumb{
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    cursor: pointer;
+    background: #1a1916;
+    transition: filter .35s ease, transform .35s ease;
+  }
+  .thumb img{
+    width:100%; height:100%;
+    object-fit: cover;
+    display:block;
+    transition: transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  .thumb:hover img{ transform: scale(1.08) }
+  .thumb::before{
+    content:"";
+    position:absolute; inset:0;
+    background: rgba(0,0,0,.35);
+    transition: background .3s ease;
+    z-index: 1;
+  }
+  .thumb:hover::before{ background: rgba(0,0,0,.1) }
+  .thumb.is-active::before{ background: rgba(0,0,0,0) }
+  .thumb.is-active{
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+  .thumb-num{
+    position:absolute;
+    top: 8px; left: 8px;
+    z-index: 2;
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 9px;
+    letter-spacing: .28em;
+    color: rgba(255,255,255,.95);
+    text-shadow: 0 1px 4px rgba(0,0,0,.5);
+  }
+  .thumb.is-active .thumb-num{
+    color: #fff;
+    font-weight: 700;
+  }
+  .thumb-tag{
+    position:absolute;
+    bottom: 8px; left: 8px; right: 8px;
+    z-index: 2;
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 9px;
+    letter-spacing: .18em;
+    color: rgba(255,255,255,.9);
+    text-transform: uppercase;
+    text-shadow: 0 1px 4px rgba(0,0,0,.5);
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .thumb:hover .thumb-tag,
+  .thumb.is-active .thumb-tag{ opacity: 1 }
+
+  /* ===== FOOTER ===== */
+  .foot{
+    padding: 18px 40px 24px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-top: 1px solid var(--hairline);
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 10px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .foot .nav{display:flex; gap:18px; align-items:center}
+  .foot .nav a{color: var(--ink-soft); text-decoration:none; cursor:pointer; transition: color .2s ease}
+  .foot .nav a:hover{color: var(--accent)}
+  .foot .info-cta{
+    display:inline-flex; align-items:center; gap: 10px;
+    color: var(--ink);
+    font-weight: 600;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    padding: 8px 0;
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 10px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+  }
+  .foot .info-cta:hover{color: var(--accent)}
+  .foot .info-cta .plus{
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display:inline-flex; align-items:center; justify-content:center;
+    transition: transform .25s ease;
+  }
+  .foot .info-cta:hover .plus{ transform: rotate(90deg) }
+  .foot .info-cta svg{width:12px; height:12px}
+
+  /* ===== LIGHTBOX ===== */
+  .lightbox{
+    position: fixed; inset: 0;
+    background: rgba(8,7,6,.96);
+    z-index: 50;
+    display:flex; align-items:center; justify-content:center;
+    padding: 60px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .lightbox.is-open{ opacity: 1; pointer-events: auto }
+  .lightbox-img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    box-shadow: 0 30px 80px rgba(0,0,0,.5);
+    opacity: 0;
+    transform: scale(.96);
+    transition: opacity .35s ease .05s, transform .45s cubic-bezier(.2,.7,.2,1);
+  }
+  .lightbox.is-open .lightbox-img{ opacity: 1; transform: scale(1) }
+  .lightbox-close{
+    position:absolute;
+    top: 24px; right: 28px;
+    appearance:none; border:0;
+    background: transparent;
+    color: rgba(255,255,255,.85);
+    width: 40px; height: 40px;
+    cursor: pointer;
+    display:inline-flex; align-items:center; justify-content:center;
+    transition: color .2s ease, transform .2s ease;
+  }
+  .lightbox-close:hover{ color: var(--accent); transform: rotate(90deg) }
+  .lightbox-close svg{width:22px;height:22px}
+
+  .lightbox-arrow{
+    position:absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(255,255,255,.04);
+    color: rgba(255,255,255,.9);
+    cursor: pointer;
+    display:inline-flex; align-items:center; justify-content:center;
+    transition: background .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .lightbox-arrow:hover{
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .lightbox-arrow.prev{ left: 30px }
+  .lightbox-arrow.next{ right: 30px }
+  .lightbox-arrow svg{ width: 20px; height: 20px }
+
+  .lightbox-meta{
+    position:absolute;
+    bottom: 26px;
+    left: 0; right: 0;
+    text-align: center;
+    color: rgba(255,255,255,.7);
+    font-family:"Archivo Narrow", sans-serif;
+    font-size: 10px;
+    letter-spacing: .42em;
+    text-transform: uppercase;
+  }
+  .lightbox-meta .ttl{
+    display:block;
+    margin-top: 6px;
+    font-family:"Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: .005em;
+    text-transform: none;
+  }
+
+  /* No-accent (neutral) mode */
+  .modal.is-neutral{
+    --accent: var(--ink);
+    --accent-deep: var(--ink-soft);
+  }
+  .modal.is-neutral .brand-sub,
+  .modal.is-neutral .project-title em,
+  .modal.is-neutral .project-eyebrow .num{
+    color: var(--ink);
+  }
+  .modal.is-neutral .project-eyebrow .completed{ border-color: var(--ink); color: var(--ink) }
+  .modal.is-neutral .project-eyebrow .completed::before{ background: var(--ink) }
+  .modal.is-neutral .thumb.is-active{ outline-color: var(--ink) }
+  .modal.is-neutral .foot .info-cta .plus{ background: var(--ink) }
+
+  /* Architectural style */
+  .modal.is-arch .project-title{
+    font-family: "Archivo", sans-serif;
+    font-weight: 300;
+    letter-spacing: -.02em;
+  }
+  .modal.is-arch .project-title em{
+    font-style: normal;
+    font-weight: 600;
+  }
+  .modal.is-arch .stage-caption .ttl{
+    font-family: "Archivo", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: .005em;
+  }
+
+  /* Editorial style */
+  .modal.is-editorial .project-title{
+    font-family: "Italiana", serif;
+    font-weight: 400;
+    letter-spacing: -.005em;
+  }
+  .modal.is-editorial .project-title em{
+    font-family: "Italiana", serif;
+    font-style: italic;
+  }
+
+  /* Strip variants */
+  .modal.is-strip-square .thumb{ aspect-ratio: 1 / 1 }
+  .modal.is-strip-wide .thumb{ aspect-ratio: 4 / 3 }
+  .modal.is-strip-tall .thumb{ aspect-ratio: 3 / 4 }
+
+  @media (max-width: 900px){
+    .stage{padding: 0}
+    .modal{border-radius:0}
+    .topbar{padding: 14px 20px; grid-template-columns: auto 1fr auto}
+    .crumb{justify-self:end; gap: 8px}
+    .project-head{grid-template-columns:1fr; align-items:start; padding:24px 20px 16px}
+    .gal{padding: 0 16px 20px}
+    .strip{grid-template-columns: repeat(4, 1fr); gap: 4px}
+    .foot{padding: 14px 20px 18px; flex-wrap:wrap; gap: 10px}
+    .lightbox{padding: 24px}
+    .lightbox-arrow{width: 44px; height: 44px}
+    .lightbox-arrow.prev{ left: 8px }
+    .lightbox-arrow.next{ right: 8px }
+  }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useMemo, useCallback } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "styleVariant": "arch",
+  "accent": "brand",
+  "dark": false,
+  "stripShape": "wide",
+  "autoplay": true
+}/*EDITMODE-END*/;
+
+// Placeholders — to be replaced with the user's actual Santa María de Tigre photos
+const PHOTOS = [
+  { id: 1, src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1800&q=80&auto=format&fit=crop", alt: "Fachada principal", tag: "Exterior" },
+  { id: 2, src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=80&auto=format&fit=crop", alt: "Pileta y deck", tag: "Pileta" },
+  { id: 3, src: "https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1800&q=80&auto=format&fit=crop", alt: "Living comedor", tag: "Living" },
+  { id: 4, src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1800&q=80&auto=format&fit=crop", alt: "Detalle de carpintería", tag: "Detalle" },
+  { id: 5, src: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1800&q=80&auto=format&fit=crop", alt: "Cocina abierta", tag: "Cocina" },
+  { id: 6, src: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1800&q=80&auto=format&fit=crop", alt: "Vista al parque", tag: "Vista" },
+  { id: 7, src: "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1800&q=80&auto=format&fit=crop", alt: "Galería exterior", tag: "Galería" },
+  { id: 8, src: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1800&q=80&auto=format&fit=crop", alt: "Suite principal", tag: "Suite" },
+];
+
+function Logo(){
+  return (
+    <div className="brand">
+      <div>
+        <div className="brand-mark">
+          <span className="isa">ISA</span> IGNACIO SOSA
+        </div>
+        <span className="brand-sub">ARQUITECTO</span>
+      </div>
+    </div>
+  );
+}
+
+function XIcon(){
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
+      <path d="M6 6 L18 18 M18 6 L6 18"/>
+    </svg>
+  );
+}
+function PlusIcon(){
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <path d="M12 5 L12 19 M5 12 L19 12"/>
+    </svg>
+  );
+}
+function ChevronLeft(){
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M15 6 L9 12 L15 18"/>
+    </svg>
+  );
+}
+function ChevronRight(){
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M9 6 L15 12 L9 18"/>
+    </svg>
+  );
+}
+function ExpandIcon(){
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 9 V4 H9 M20 9 V4 H15 M4 15 V20 H9 M20 15 V20 H15"/>
+    </svg>
+  );
+}
+
+function Stage({ photos, activeId, onSelect, onZoom }){
+  const idx = photos.findIndex(p => p.id === activeId);
+  const active = photos[idx];
+
+  const prev = () => onSelect(photos[(idx - 1 + photos.length) % photos.length].id);
+  const next = () => onSelect(photos[(idx + 1) % photos.length].id);
+
+  return (
+    <div className="stage-wrap" onClick={(e) => {
+      // Only trigger zoom if user clicked the image area, not arrows/buttons
+      if(e.target.closest('.stage-arrow, .stage-zoom-hint')) return;
+      onZoom();
+    }}>
+      {photos.map(p => (
+        <img
+          key={p.id}
+          src={p.src}
+          alt={p.alt}
+          draggable="false"
+          className={"stage-img " + (p.id === activeId ? "is-active" : "")}
+        />
+      ))}
+      <div className="stage-vignette"/>
+
+      <button className="stage-arrow prev" onClick={(e) => {e.stopPropagation(); prev()}} aria-label="Anterior">
+        <ChevronLeft/>
+      </button>
+      <button className="stage-arrow next" onClick={(e) => {e.stopPropagation(); next()}} aria-label="Siguiente">
+        <ChevronRight/>
+      </button>
+
+      <div className="stage-caption">
+        <div className="left">
+          <div className="idx"><span className="cur">{String(idx+1).padStart(2,'0')}</span> &nbsp;/&nbsp; {String(photos.length).padStart(2,'0')} &nbsp;·&nbsp; {active.tag}</div>
+          <div className="ttl">{active.alt}</div>
+        </div>
+        <button className="stage-zoom-hint" onClick={(e) => {e.stopPropagation(); onZoom()}}>
+          <ExpandIcon/>
+          Ver en grande
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function Strip({ photos, activeId, onSelect }){
+  return (
+    <div className="strip">
+      {photos.map((p, i) => (
+        <div
+          key={p.id}
+          className={"thumb " + (p.id === activeId ? "is-active" : "")}
+          onClick={() => onSelect(p.id)}
+          role="button"
+          aria-label={"Ver " + p.alt}
+        >
+          <img src={p.src} alt={p.alt} loading="lazy" draggable="false" />
+          <span className="thumb-num">{String(i+1).padStart(2,'0')}</span>
+          <span className="thumb-tag">{p.tag}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Lightbox({ photos, activeId, open, onClose, onSelect }){
+  const idx = photos.findIndex(p => p.id === activeId);
+  const active = photos[idx];
+
+  useEffect(() => {
+    if(!open) return;
+    const onKey = (e) => {
+      if(e.key === "Escape") onClose();
+      if(e.key === "ArrowLeft") onSelect(photos[(idx - 1 + photos.length) % photos.length].id);
+      if(e.key === "ArrowRight") onSelect(photos[(idx + 1) % photos.length].id);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, idx, photos, onClose, onSelect]);
+
+  // Lock body scroll while lightbox is open
+  useEffect(() => {
+    if(open){
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = prev };
+    }
+  }, [open]);
+
+  return (
+    <div className={"lightbox " + (open ? "is-open" : "")} onClick={onClose} aria-hidden={!open}>
+      <button className="lightbox-close" onClick={onClose} aria-label="Cerrar"><XIcon/></button>
+      <button className="lightbox-arrow prev" onClick={(e) => {e.stopPropagation(); onSelect(photos[(idx - 1 + photos.length) % photos.length].id)}} aria-label="Anterior">
+        <ChevronLeft/>
+      </button>
+      <button className="lightbox-arrow next" onClick={(e) => {e.stopPropagation(); onSelect(photos[(idx + 1) % photos.length].id)}} aria-label="Siguiente">
+        <ChevronRight/>
+      </button>
+      <img
+        className="lightbox-img"
+        src={active.src}
+        alt={active.alt}
+        onClick={(e) => e.stopPropagation()}
+        draggable="false"
+      />
+      <div className="lightbox-meta">
+        <span>{String(idx+1).padStart(2,'0')} / {String(photos.length).padStart(2,'0')} · {active.tag}</span>
+        <span className="ttl">{active.alt}</span>
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [activeId, setActiveId] = useState(1);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  // Optional autoplay
+  useEffect(() => {
+    if(!t.autoplay || lightboxOpen) return;
+    const id = setInterval(() => {
+      setActiveId(prev => {
+        const i = PHOTOS.findIndex(p => p.id === prev);
+        return PHOTOS[(i + 1) % PHOTOS.length].id;
+      });
+    }, 4200);
+    return () => clearInterval(id);
+  }, [t.autoplay, lightboxOpen]);
+
+  // Keyboard nav for stage (when lightbox is not open)
+  useEffect(() => {
+    const onKey = (e) => {
+      if(lightboxOpen) return;
+      if(e.key === "ArrowLeft"){
+        setActiveId(prev => {
+          const i = PHOTOS.findIndex(p => p.id === prev);
+          return PHOTOS[(i - 1 + PHOTOS.length) % PHOTOS.length].id;
+        });
+      }
+      if(e.key === "ArrowRight"){
+        setActiveId(prev => {
+          const i = PHOTOS.findIndex(p => p.id === prev);
+          return PHOTOS[(i + 1) % PHOTOS.length].id;
+        });
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxOpen]);
+
+  const modalClasses = useMemo(() => [
+    "modal",
+    t.dark ? "is-dark" : "",
+    t.accent === "neutral" ? "is-neutral" : "",
+    t.styleVariant === "arch" ? "is-arch" : "",
+    t.styleVariant === "editorial" ? "is-editorial" : "",
+    "is-strip-" + (t.stripShape || "tall"),
+  ].filter(Boolean).join(" "), [t.dark, t.accent, t.styleVariant, t.stripShape]);
+
+  return (
+    <div className="stage">
+      <div className={modalClasses}>
+        {/* TOP BAR */}
+        <div className="topbar">
+          <Logo/>
+          <div className="crumb">
+            <span>Trabajos</span>
+            <span className="sep-line"/>
+            <span className="here">Obras Finalizadas</span>
+          </div>
+          <div className="topbar-right">
+            <button className="icon-btn" aria-label="Cerrar"><XIcon/></button>
+          </div>
+        </div>
+
+        {/* PROJECT HEADER */}
+        <div className="project-head">
+          <div>
+            <p className="project-eyebrow">
+              <span className="num">01</span>
+              <span>Obra residencial</span>
+              <span className="completed">Finalizada · 2023</span>
+            </p>
+            <h1 className="project-title">Santa María <em>de Tigre</em></h1>
+          </div>
+          <div className="meta">
+            <div className="meta-item">
+              <span className="meta-k">Ubicación</span>
+              <span className="meta-v">Tigre, Buenos Aires</span>
+            </div>
+            <div className="meta-item">
+              <span className="meta-k">Superficie</span>
+              <span className="meta-v">420 m²</span>
+            </div>
+            <div className="meta-item">
+              <span className="meta-k">Imágenes</span>
+              <span className="meta-v">08 fotografías</span>
+            </div>
+          </div>
+        </div>
+
+        {/* GALLERY */}
+        <div className="gal">
+          <Stage
+            photos={PHOTOS}
+            activeId={activeId}
+            onSelect={setActiveId}
+            onZoom={() => setLightboxOpen(true)}
+          />
+          <Strip
+            photos={PHOTOS}
+            activeId={activeId}
+            onSelect={setActiveId}
+          />
+        </div>
+
+        {/* FOOTER */}
+        <div className="foot">
+          <div className="nav">
+            <a>← Obra anterior</a>
+            <a>Pilarica →</a>
+          </div>
+          <button className="info-cta" onClick={() => alert("→ Memoria descriptiva, planos y ficha técnica")}>
+            <span>Memoria + ficha técnica</span>
+            <span className="plus"><PlusIcon/></span>
+          </button>
+        </div>
+      </div>
+
+      <Lightbox
+        photos={PHOTOS}
+        activeId={activeId}
+        open={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        onSelect={setActiveId}
+      />
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Estilo"/>
+        <TweakRadio
+          label="Variante tipográfica"
+          value={t.styleVariant}
+          options={[
+            { value: "editorial", label: "Editorial" },
+            { value: "classic", label: "Clásica" },
+            { value: "arch", label: "Técnica" },
+          ]}
+          onChange={(v) => setTweak('styleVariant', v)}
+        />
+        <TweakRadio
+          label="Acento de color"
+          value={t.accent}
+          options={[
+            { value: "brand", label: "Rojo marca" },
+            { value: "neutral", label: "Neutro" },
+          ]}
+          onChange={(v) => setTweak('accent', v)}
+        />
+        <TweakToggle
+          label="Modo oscuro"
+          value={t.dark}
+          onChange={(v) => setTweak('dark', v)}
+        />
+        <TweakSection label="Tira de miniaturas"/>
+        <TweakRadio
+          label="Forma"
+          value={t.stripShape}
+          options={[
+            { value: "tall", label: "Vertical" },
+            { value: "square", label: "Cuadrada" },
+            { value: "wide", label: "Apaisada" },
+          ]}
+          onChange={(v) => setTweak('stripShape', v)}
+        />
+        <TweakToggle
+          label="Auto-avance"
+          value={t.autoplay}
+          onChange={(v) => setTweak('autoplay', v)}
+        />
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
