@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>if (window.innerWidth <= 768) window.location.href = 'preview.html';</script>
   <title>Arquitecto — Inicio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700;800;900&family=Archivo:wght@300;400;500;600;700&family=Archivo+Narrow:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -681,6 +681,181 @@
       color: #fff;
     }
 
+    /* ── EN EJECUCIÓN (nuevo diseño) ── */
+    #ejecucionOverlay {
+      background: #1d1b18 !important;
+      overflow: hidden;
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #ejecucionOverlay.active { display: flex !important; }
+
+    .ej-stage { width: 100%; max-width: 1400px; display: flex; align-items: stretch; }
+    .ej-modal {
+      width: 100%;
+      background: #f6f4ef;
+      box-shadow: 0 30px 80px rgba(0,0,0,.45), 0 2px 0 rgba(0,0,0,.2);
+      display: flex; flex-direction: column;
+      overflow: hidden; border-radius: 2px;
+      max-height: calc(100vh - 56px);
+    }
+
+    /* TOP BAR */
+    .ej-topbar {
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center; padding: 18px 32px;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      background: #f6f4ef; flex-shrink: 0;
+    }
+    .ej-brand { display: flex; align-items: center; gap: 14px; }
+    .ej-brand-mark {
+      font-family: "Archivo", sans-serif; font-weight: 800;
+      font-size: 16px; letter-spacing: .01em; line-height: 1; color: #1a1a1a;
+    }
+    .ej-isa { color: #c9442e; letter-spacing: .02em; }
+    .ej-brand-sub {
+      display: block; font-family: "Archivo Narrow", sans-serif;
+      font-weight: 500; font-size: 10px; letter-spacing: .32em;
+      color: #c9442e; margin-top: 4px;
+    }
+    .ej-crumb {
+      font-family: "Archivo Narrow", sans-serif; font-size: 11px;
+      letter-spacing: .42em; text-transform: uppercase; color: #4a4a4a;
+      display: flex; align-items: center; gap: 14px; justify-self: center;
+    }
+    .ej-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: #c9442e;
+      display: inline-block; animation: ejpulse 2.4s ease-in-out infinite;
+    }
+    @keyframes ejpulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50% { opacity:.4; transform:scale(.7); }
+    }
+    .ej-topbar-right { display: flex; align-items: center; gap: 8px; justify-self: end; }
+    .ej-icon-btn {
+      appearance: none; border: 0; background: transparent;
+      width: 34px; height: 34px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #4a4a4a; cursor: pointer; transition: all .2s ease;
+    }
+    .ej-icon-btn:hover { background: rgba(0,0,0,.06); color: #1a1a1a; }
+    .ej-icon-btn svg { width: 16px; height: 16px; }
+
+    /* PROJECT HEADER */
+    .ej-project-head {
+      padding: 36px 40px 28px;
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: end; gap: 24px; flex-shrink: 0;
+    }
+    .ej-eyebrow {
+      font-family: "Archivo Narrow", sans-serif; font-size: 10px;
+      letter-spacing: .42em; text-transform: uppercase; color: #8a8580; margin: 0 0 10px;
+    }
+    .ej-num { color: #c9442e; font-weight: 600; margin-right: 12px; }
+    .ej-title {
+      font-family: "Archivo", sans-serif; font-weight: 300;
+      font-size: clamp(36px, 5vw, 64px); line-height: .95;
+      letter-spacing: -.02em; margin: 0; color: #1a1a1a;
+    }
+    .ej-title em { font-style: normal; font-weight: 600; color: #c9442e; }
+    .ej-meta { display: flex; gap: 32px; padding-bottom: 6px; }
+    .ej-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .ej-meta-k {
+      font-family: "Archivo Narrow", sans-serif; font-size: 9px;
+      letter-spacing: .32em; text-transform: uppercase; color: #8a8580;
+    }
+    .ej-meta-v {
+      font-family: "Archivo", sans-serif; font-size: 13px;
+      font-weight: 500; color: #1a1a1a; letter-spacing: .01em;
+    }
+    .ej-live {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: #c9442e; margin-right: 6px; transform: translateY(-1px);
+    }
+
+    /* GALLERY */
+    .ej-gallery-wrap { padding: 8px 40px 32px; flex: 1; min-height: 0; }
+    .ej-gallery {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 10px; aspect-ratio: 16 / 9;
+    }
+    .ej-tile {
+      position: relative; overflow: hidden; background: #222;
+      cursor: zoom-in;
+      transition: box-shadow .35s ease, transform .35s ease;
+    }
+    .ej-tile img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .9s cubic-bezier(.2,.7,.2,1), filter .4s ease;
+    }
+    .ej-tile::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,.35) 100%);
+      opacity: 0; transition: opacity .3s ease; pointer-events: none;
+    }
+    .ej-tile:hover img { transform: scale(1.06); }
+    .ej-tile:hover::after { opacity: 1; }
+    .ej-hero { cursor: default; }
+    .ej-hero img { transform: scale(1.02); }
+    .ej-hero:hover img { transform: scale(1.04); }
+    .ej-tile-idx {
+      position: absolute; top: 10px; left: 12px;
+      font-family: "Archivo Narrow", sans-serif; font-size: 10px;
+      letter-spacing: .28em; color: rgba(255,255,255,.85);
+      text-shadow: 0 1px 6px rgba(0,0,0,.55);
+      opacity: 0; transition: opacity .3s ease; pointer-events: none;
+    }
+    .ej-tile:hover .ej-tile-idx, .ej-hero .ej-tile-idx { opacity: 1; }
+
+    /* INFO CARD */
+    .ej-info-card {
+      background: #fff; border: 1px solid rgba(0,0,0,.12);
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 14px 16px; position: relative; overflow: hidden;
+    }
+    .ej-ic-eyebrow {
+      font-family: "Archivo Narrow", sans-serif; font-size: 9px;
+      letter-spacing: .32em; text-transform: uppercase; color: #8a8580;
+    }
+    .ej-ic-title {
+      font-family: "Archivo", sans-serif; font-size: 15px;
+      line-height: 1.3; color: #1a1a1a; margin: 6px 0 0; font-weight: 400;
+    }
+    .ej-ic-title em { font-style: normal; font-weight: 600; color: #c9442e; }
+    .ej-plus-btn {
+      appearance: none; border: 0; width: 44px; height: 44px; border-radius: 50%;
+      background: #1a1a1a; color: #f6f4ef;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; align-self: flex-end;
+      transition: transform .25s ease, background .25s ease;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    }
+    .ej-plus-btn:hover { background: #c9442e; color: white; transform: rotate(90deg) scale(1.05); }
+    .ej-plus-btn svg { width: 18px; height: 18px; }
+
+    /* FOOTER */
+    .ej-foot {
+      padding: 18px 40px 24px; display: flex;
+      justify-content: space-between; align-items: center;
+      border-top: 1px solid rgba(0,0,0,.12);
+      font-family: "Archivo Narrow", sans-serif; font-size: 10px;
+      letter-spacing: .28em; text-transform: uppercase; color: #8a8580;
+      flex-shrink: 0;
+    }
+    .ej-nav { display: flex; gap: 18px; align-items: center; }
+    .ej-nav a { color: #4a4a4a; text-decoration: none; cursor: pointer; transition: color .2s ease; }
+    .ej-nav a:hover { color: #c9442e; }
+    .ej-counter {
+      display: flex; gap: 8px; align-items: baseline;
+      font-family: "Archivo Narrow", sans-serif; font-size: 13px;
+      letter-spacing: .04em; text-transform: none; color: #1a1a1a;
+    }
+    .ej-sep, .ej-total-num { color: #8a8580; }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid #e0e0e0;
@@ -1045,105 +1220,51 @@
 
   <!-- EN EJECUCIÓN OVERLAY -->
   <div class="trabajos-overlay" id="ejecucionOverlay">
-    <div class="trabajos-header">
-      <div class="logo"><img src="imagenes/ISA-logo.jpg" alt="ISA Ignacio Sosa"></div>
-      <span class="nav-seccion">En ejecución</span>
-      <div class="nav-derecha">
-        <button class="trabajos-close" onclick="cerrarEjecucion()">✕</button>
-      </div>
-    </div>
-    <div class="trabajos-lista">
+    <div class="ej-stage">
+      <div class="ej-modal">
 
-      <div class="trabajo-item">
-        <div class="trabajo-strips trabajo-grid">
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/01_Acceso_20autos.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/03_pileta_20cubierta_noche.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/04_Cocina.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/06_Confiteria.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/07_Gym.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/10_Aerea.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/12_Pileta_Grande.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/PREMIUM%20PILAR/13_Paseo_01.jpg'); background-size: cover; background-position: center;"></div>
+        <div class="ej-topbar">
+          <div class="ej-brand">
+            <div>
+              <div class="ej-brand-mark"><span class="ej-isa">ISA</span> IGNACIO SOSA</div>
+              <span class="ej-brand-sub">ARQUITECTO</span>
+            </div>
+          </div>
+          <div class="ej-crumb"><span class="ej-dot"></span><span>En Ejecución</span></div>
+          <div class="ej-topbar-right">
+            <button class="ej-icon-btn" onclick="cerrarEjecucion()" aria-label="Cerrar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 6 L18 18 M18 6 L6 18"/></svg>
+            </button>
+          </div>
         </div>
-        <span class="trabajo-nombre">Premium Pilar</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
 
-      <div class="trabajo-item">
-        <div class="trabajo-strips trabajo-grid">
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/2.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/7.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/10.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/11.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/14.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/15.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/16.jpg'); background-size: cover; background-position: center;"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)" style="background-image: url('imagenes/mercedes%20buenos%20aires/17.jpg'); background-size: cover; background-position: center;"></div>
+        <div class="ej-project-head">
+          <div>
+            <p class="ej-eyebrow"><span class="ej-num" id="ejNum">01</span><span id="ejTipo">Obra residencial · 2024 – Presente</span></p>
+            <h1 class="ej-title"><span id="ejTitulo">Premium</span> <em id="ejTituloEm">Pilar</em></h1>
+          </div>
+          <div class="ej-meta">
+            <div class="ej-meta-item"><span class="ej-meta-k">Ubicación</span><span class="ej-meta-v" id="ejUbicacion">Pilar, Buenos Aires</span></div>
+            <div class="ej-meta-item"><span class="ej-meta-k">Superficie</span><span class="ej-meta-v" id="ejSuperficie">680 m²</span></div>
+            <div class="ej-meta-item"><span class="ej-meta-k">Estado</span><span class="ej-meta-v"><span class="ej-live"></span>En ejecución</span></div>
+          </div>
         </div>
-        <span class="trabajo-nombre">Mercedes Buenos Aires</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
 
-      <div class="trabajo-item">
-        <div class="trabajo-strips trabajo-grid">
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+        <div class="ej-gallery-wrap">
+          <div class="ej-gallery" id="ejGallery"></div>
         </div>
-        <span class="trabajo-nombre">Por definir</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
 
-      <div class="trabajo-item">
-        <div class="trabajo-strips trabajo-grid">
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
+        <div class="ej-foot">
+          <div class="ej-nav">
+            <a onclick="ejPrev()">← Proyecto anterior</a>
+            <a onclick="ejNext()">Proyecto siguiente →</a>
+          </div>
+          <div class="ej-counter">
+            <span id="ejCur">01</span><span class="ej-sep">/</span><span id="ejTotal">02</span>
+          </div>
         </div>
-        <span class="trabajo-nombre">Por definir</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
 
-      <div class="trabajo-item">
-        <div class="trabajo-strips trabajo-grid">
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-        </div>
-        <span class="trabajo-nombre">Por definir</span>
-        <div class="trabajo-btn-mas">+</div>
       </div>
-
-      <div class="trabajo-item">
-        <div class="trabajo-strips trabajo-grid">
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-          <div class="trabajo-celda" onclick="toggleStrip(this)"></div>
-        </div>
-        <span class="trabajo-nombre">Por definir</span>
-        <div class="trabajo-btn-mas">+</div>
-      </div>
-
     </div>
   </div>
 
@@ -1242,8 +1363,116 @@
       document.getElementById('trabajosOverlay').classList.remove('active');
     }
 
+    /* ── EN EJECUCIÓN ── */
+    const EJ_PROJECTS = [
+      {
+        num: '01', tipo: 'Obra residencial · 2024 – Presente',
+        titulo: 'Premium', tituloEm: 'Pilar',
+        ubicacion: 'Pilar, Buenos Aires', superficie: '680 m²',
+        images: [
+          'imagenes/PREMIUM PILAR/01_Acceso_20autos.jpg',
+          'imagenes/PREMIUM PILAR/02_Balcon.jpg',
+          'imagenes/PREMIUM PILAR/03_pileta_20cubierta_noche.jpg',
+          'imagenes/PREMIUM PILAR/04_Cocina.jpg',
+          'imagenes/PREMIUM PILAR/05_Living.jpg',
+          'imagenes/PREMIUM PILAR/06_Confiteria.jpg',
+          'imagenes/PREMIUM PILAR/07_Gym.jpg',
+          'imagenes/PREMIUM PILAR/10_Aerea.jpg',
+        ]
+      },
+      {
+        num: '02', tipo: 'Obra residencial · 2024 – Presente',
+        titulo: 'Mercedes', tituloEm: 'Buenos Aires',
+        ubicacion: 'Mercedes, Buenos Aires', superficie: '520 m²',
+        images: [
+          'imagenes/MERCEDES BUENOS AIRES/2.jpg',
+          'imagenes/MERCEDES BUENOS AIRES/7.jpg',
+          'imagenes/MERCEDES BUENOS AIRES/10.jpg',
+          'imagenes/MERCEDES BUENOS AIRES/11.jpg',
+          'imagenes/MERCEDES BUENOS AIRES/14.jpg',
+          'imagenes/MERCEDES BUENOS AIRES/15.jpg',
+          'imagenes/MERCEDES BUENOS AIRES/16.jpg',
+          'imagenes/MERCEDES BUENOS AIRES/17.jpg',
+        ]
+      }
+    ];
+
+    let ejIdx = 0;
+    let ejHeroImg = 0;
+
+    const EJ_SLOTS = [
+      { gc: '1 / 3', gr: '1 / 3', hero: true  },
+      { gc: '3',     gr: '1',     hero: false  },
+      { gc: '4',     gr: '1',     hero: false  },
+      { gc: '3',     gr: '2',     hero: false  },
+      { gc: '4',     gr: '2',     hero: false  },
+      { gc: '1',     gr: '3',     hero: false  },
+      { gc: '2',     gr: '3',     hero: false  },
+      { gc: '3',     gr: '3',     hero: false  },
+    ];
+
+    function ejBuildGallery() {
+      const p    = EJ_PROJECTS[ejIdx];
+      const imgs = p.images;
+      // image order: hero image first, then the rest in original order
+      const order = [ejHeroImg];
+      for (let i = 0; i < imgs.length; i++) { if (i !== ejHeroImg) order.push(i); }
+
+      let html = '';
+      for (let s = 0; s < EJ_SLOTS.length; s++) {
+        const slot   = EJ_SLOTS[s];
+        const imgIdx = order[s] !== undefined ? order[s] : 0;
+        const src    = imgs[imgIdx];
+        const num    = String(imgIdx + 1).padStart(2, '0');
+        html += `<div class="ej-tile${slot.hero ? ' ej-hero' : ''}"
+          style="grid-column:${slot.gc};grid-row:${slot.gr}"
+          ${!slot.hero ? `onclick="ejSetHero(${imgIdx})"` : ''}>
+          <img src="${src}" alt="">
+          <span class="ej-tile-idx">${num}</span>
+        </div>`;
+      }
+
+      // info card: shows next project
+      const next = EJ_PROJECTS[(ejIdx + 1) % EJ_PROJECTS.length];
+      html += `<div class="ej-info-card" style="grid-column:4;grid-row:3">
+        <div>
+          <p class="ej-ic-eyebrow">Siguiente proyecto</p>
+          <p class="ej-ic-title">${next.titulo} <em>${next.tituloEm}</em></p>
+        </div>
+        <button class="ej-plus-btn" onclick="ejNext()" aria-label="Siguiente">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </div>`;
+
+      document.getElementById('ejGallery').innerHTML = html;
+    }
+
+    function ejRender(projectIdx) {
+      ejIdx     = projectIdx;
+      ejHeroImg = 0;
+      const p   = EJ_PROJECTS[ejIdx];
+      document.getElementById('ejNum').textContent       = p.num;
+      document.getElementById('ejTipo').textContent      = p.tipo;
+      document.getElementById('ejTitulo').textContent    = p.titulo;
+      document.getElementById('ejTituloEm').textContent  = p.tituloEm;
+      document.getElementById('ejUbicacion').textContent = p.ubicacion;
+      document.getElementById('ejSuperficie').textContent= p.superficie;
+      document.getElementById('ejCur').textContent       = p.num;
+      document.getElementById('ejTotal').textContent     = String(EJ_PROJECTS.length).padStart(2, '0');
+      ejBuildGallery();
+    }
+
+    function ejSetHero(imgIdx) {
+      ejHeroImg = imgIdx;
+      ejBuildGallery();
+    }
+
+    function ejPrev() { ejRender((ejIdx - 1 + EJ_PROJECTS.length) % EJ_PROJECTS.length); }
+    function ejNext() { ejRender((ejIdx + 1) % EJ_PROJECTS.length); }
+
     function abrirEjecucion() {
       document.getElementById('ejecucionOverlay').classList.add('active');
+      ejRender(0);
       pinned = false;
       menu.classList.remove('visible');
     }
